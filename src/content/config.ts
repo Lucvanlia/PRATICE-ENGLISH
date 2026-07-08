@@ -5,6 +5,12 @@ const lessonSchema = z.object({
   module: z.number(),
   objective: z.string(),
   visualExplanation: z.array(z.string()).optional(),
+  formula: z.string().optional(),
+  formulas: z.array(z.object({
+    label: z.string(),
+    structure: z.string(),
+    example: z.string()
+  })).optional(),
   examples: z.array(z.object({
     eng: z.string(),
     vie: z.string(),

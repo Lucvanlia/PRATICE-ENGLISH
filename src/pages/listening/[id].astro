@@ -1,0 +1,276 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const listeningLessons = await getCollection('listening');
+  return listeningLessons.map(lesson => ({
+    params: { id: lesson.id.replace(/\.mdx?$/, '') },
+    props: { lesson },
+  }));
+}
+
+const { lesson } = Astro.props;
+const { Content } = await render(lesson);
+const { data } = lesson;
+---
+
+<Layout title={data.title} description={data.objective}>
+  <nav class="flex text-sm text-slate-500 mb-6" aria-label="Breadcrumb">
+    <a href="/" class="hover:text-blue-600">Trang chủ</a>
+    <span class="mx-2">/</span>
+    <a href="/listening" class="hover:text-blue-600">Luyện nghe</a>
+    <span class="mx-2">/</span>
+    <span class="text-slate-900 dark:text-slate-300 font-medium truncate max-w-[200px] sm:max-w-none">{data.title}</span>
+  </nav>
+
+  <div class="mb-8">
+    <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 dark:bg-blue-950/30 dark:text-blue-300 mb-3 border border-blue-200 dark:border-blue-800/30">
+      Module {data.module}
+    </div>
+    <h1 class="text-3xl sm:text-4xl font-outfit font-bold tracking-tight">{data.title}</h1>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <!-- Left column: Objective, Visual and Theory -->
+    <div class="lg:col-span-2 space-y-8">
+      <!-- Objective Card -->
+      <div class="p-6 rounded-2xl bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-slate-900 dark:to-slate-900 border border-blue-100 dark:border-slate-800">
+        <h3 class="text-lg font-outfit font-semibold text-blue-900 dark:text-blue-100 mb-2">Mục tiêu bài học</h3>
+        <p class="text-slate-700 dark:text-slate-300 text-sm leading-relaxed">{data.objective}</p>
+      </div>
+
+      <!-- Visual Explanation -->
+      {data.visualExplanation && (
+        <div class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-3">
+          <h3 class="text-lg font-outfit font-semibold mb-3">Tóm tắt tư duy</h3>
+          <ul class="space-y-2.5">
+            {data.visualExplanation.map(point => (
+              <li class="flex items-start text-sm text-slate-700 dark:text-slate-300">
+                <svg class="w-4 h-4 text-blue-500 mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"></path></svg>
+                {point}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      <!-- Theory Content -->
+      <article class="p-6 sm:p-8 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 prose dark:prose-invert max-w-none prose-sm sm:prose-base prose-headings:font-outfit">
+        <Content />
+      </article>
+
+      <!-- Examples Section -->
+      <div class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+        <h3 class="text-xl font-outfit font-bold mb-4">Ví dụ thực tế</h3>
+        <div class="space-y-4">
+          {data.examples.map(ex => (
+            <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-850">
+              <p class="text-sm font-semibold text-blue-600 dark:text-blue-400">EN: {ex.eng}</p>
+              <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">VI: {ex.vie}</p>
+              {ex.note && <p class="text-xs text-slate-500 dark:text-slate-500 italic mt-2">💡 Note: {ex.note}</p>}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Common Mistakes Section -->
+      <div class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+        <h3 class="text-xl font-outfit font-bold mb-4">Lỗi sai thường gặp (Bẫy)</h3>
+        <div class="space-y-4">
+          {data.commonMistakes.map(m => (
+            <div class="p-4 rounded-xl bg-red-50/50 dark:bg-red-950/10 border border-red-100 dark:border-red-900/30">
+              <div class="text-sm text-red-600 dark:text-red-400 line-through">Bẫy: {m.mistake}</div>
+              <div class="text-sm text-emerald-600 dark:text-emerald-400 font-semibold mt-1">Sửa đúng: {m.correction}</div>
+              <p class="text-xs text-slate-600 dark:text-slate-400 mt-2">👉 Giải thích: {m.explanation}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- Right column: Memory Tips, Flashcards, Quiz and Homework -->
+    <div class="space-y-8">
+      <!-- Memory Tips -->
+      <div class="p-6 rounded-2xl bg-amber-50/50 dark:bg-amber-950/10 border border-amber-100 dark:border-amber-900/20">
+        <h3 class="text-lg font-outfit font-bold text-amber-900 dark:text-amber-300 mb-3">Mẹo ghi nhớ</h3>
+        <ul class="space-y-2">
+          {data.memoryTips.map(tip => (
+            <li class="flex items-start text-sm text-slate-700 dark:text-slate-400">
+              <span class="mr-2 text-amber-500">⭐️</span>
+              {tip}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Interactive Flashcards -->
+      <div class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+        <h3 class="text-lg font-outfit font-bold mb-3">Flashcards ({data.flashcards.length})</h3>
+        <div class="relative w-full h-48 group persist-3d cursor-pointer" id="flashcard-container">
+          <!-- Card Element -->
+          <div class="absolute w-full h-full transition-transform duration-500 transform-style-3d border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm bg-slate-50 dark:bg-slate-950 flex flex-col items-center justify-center p-6 text-center" id="flashcard-card">
+            <!-- Front -->
+            <div class="absolute backface-hidden w-full px-6 flex flex-col items-center justify-center" id="flashcard-front">
+              <span class="text-xs text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2">Mặt trước</span>
+              <p class="font-outfit font-bold text-slate-800 dark:text-slate-200 text-lg" id="front-text"></p>
+            </div>
+            <!-- Back -->
+            <div class="absolute backface-hidden w-full px-6 rotate-y-180 flex flex-col items-center justify-center" id="flashcard-back">
+              <span class="text-xs text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2">Mặt sau</span>
+              <p class="font-sans text-blue-600 dark:text-blue-400 text-base" id="back-text"></p>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center justify-between mt-4">
+          <button id="prev-card" class="px-3 py-1.5 rounded-lg border border-slate-250 dark:border-slate-700 text-xs font-semibold hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-30 disabled:hover:bg-transparent" disabled>Trước</button>
+          <span class="text-xs text-slate-500" id="card-indicator">1 / 1</span>
+          <button id="next-card" class="px-3 py-1.5 rounded-lg border border-slate-250 dark:border-slate-700 text-xs font-semibold hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-30 disabled:hover:bg-transparent">Sau</button>
+        </div>
+      </div>
+
+      <!-- Quiz Engine -->
+      <div class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+        <h3 class="text-lg font-outfit font-bold mb-4">Trắc nghiệm nhanh</h3>
+        <div class="space-y-6">
+          {data.miniQuiz.map((q, qIndex) => (
+            <div class="quiz-block space-y-3" data-correct={q.answer} data-index={qIndex}>
+              <p class="text-sm font-semibold text-slate-800 dark:text-slate-200">Q{qIndex + 1}: {q.question}</p>
+              <div class="space-y-2">
+                {q.options.map(opt => (
+                  <button class="w-full text-left p-3 text-xs sm:text-sm rounded-xl border border-slate-200 dark:border-slate-800 hover:border-blue-500 hover:bg-blue-50/10 transition-all quiz-option" data-option={opt}>
+                    {opt}
+                  </button>
+                ))}
+              </div>
+              <div class="quiz-explanation hidden p-3 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-150 dark:border-slate-850 text-xs mt-3">
+                <p class="font-bold text-emerald-600 dark:text-emerald-400">Đáp án: {q.answer}</p>
+                <p class="text-slate-600 dark:text-slate-400 mt-1">{q.explanation}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Homework -->
+      <div class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+        <h3 class="text-lg font-outfit font-bold mb-3">Bài tập tự luyện</h3>
+        <div class="space-y-4">
+          {data.homework.map((hw, idx) => (
+            <div class="space-y-2">
+              <p class="text-sm text-slate-800 dark:text-slate-200">Ex {idx + 1}: {hw.question}</p>
+              <details class="group">
+                <summary class="list-none flex items-center gap-1 text-xs font-semibold text-blue-600 dark:text-blue-400 cursor-pointer select-none">
+                  <span>Hiện đáp án</span>
+                  <svg class="w-3.5 h-3.5 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </summary>
+                <div class="p-3 mt-2 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-150 dark:border-slate-850 text-xs text-slate-700 dark:text-slate-300">
+                  {hw.answer}
+                </div>
+              </details>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive script -->
+  <script is:inline define:vars={{ flashcards: data.flashcards }}>
+    // Flashcard interaction logic
+    let currentCardIndex = 0;
+    const cardEl = document.getElementById('flashcard-card');
+    const containerEl = document.getElementById('flashcard-container');
+    const frontTextEl = document.getElementById('front-text');
+    const backTextEl = document.getElementById('back-text');
+    const prevBtn = document.getElementById('prev-card');
+    const nextBtn = document.getElementById('next-card');
+    const indicatorEl = document.getElementById('card-indicator');
+
+    function updateCard() {
+      if (cardEl.classList.contains('rotate-y-180')) {
+        cardEl.classList.remove('rotate-y-180');
+        // Delay content update until flip finishes
+        setTimeout(setCardContent, 150);
+      } else {
+        setCardContent();
+      }
+      
+      prevBtn.disabled = currentCardIndex === 0;
+      nextBtn.disabled = currentCardIndex === flashcards.length - 1;
+      indicatorEl.textContent = `${currentCardIndex + 1} / ${flashcards.length}`;
+    }
+
+    function setCardContent() {
+      const card = flashcards[currentCardIndex];
+      frontTextEl.textContent = card.front;
+      backTextEl.textContent = card.back;
+    }
+
+    containerEl?.addEventListener('click', () => {
+      cardEl.classList.toggle('rotate-y-180');
+    });
+
+    prevBtn?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (currentCardIndex > 0) {
+        currentCardIndex--;
+        updateCard();
+      }
+    });
+
+    nextBtn?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (currentCardIndex < flashcards.length - 1) {
+        currentCardIndex++;
+        updateCard();
+      }
+    });
+
+    updateCard();
+
+    // Quiz logic
+    const quizBlocks = document.querySelectorAll('.quiz-block');
+    quizBlocks.forEach(block => {
+      const correctAnswer = block.getAttribute('data-correct');
+      const options = block.querySelectorAll('.quiz-option');
+      const explanation = block.querySelector('.quiz-explanation');
+
+      options.forEach(opt => {
+        opt.addEventListener('click', () => {
+          const selectedVal = opt.getAttribute('data-option');
+          
+          // Disable all options in this block
+          options.forEach(btn => {
+            btn.disabled = true;
+            if (btn.getAttribute('data-option') === correctAnswer) {
+              btn.classList.add('bg-emerald-50', 'border-emerald-500', 'text-emerald-700', 'dark:bg-emerald-950/20', 'dark:border-emerald-800', 'dark:text-emerald-300');
+            }
+          });
+
+          if (selectedVal !== correctAnswer) {
+            opt.classList.add('bg-red-50', 'border-red-500', 'text-red-700', 'dark:bg-red-950/20', 'dark:border-red-800', 'dark:text-red-300');
+          }
+
+          explanation?.classList.remove('hidden');
+        });
+      });
+    });
+  </script>
+
+  <style>
+    /* 3D transforms */
+    .persist-3d {
+      perspective: 1000px;
+    }
+    .transform-style-3d {
+      transform-style: preserve-3d;
+    }
+    .backface-hidden {
+      backface-visibility: hidden;
+    }
+    .rotate-y-180 {
+      transform: rotateY(180deg);
+    }
+  </style>
+</Layout>

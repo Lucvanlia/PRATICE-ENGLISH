@@ -1,0 +1,293 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+
+const grammarLessons = await getCollection('grammar');
+const listeningLessons = await getCollection('listening');
+
+// Compile all quiz questions from lessons
+const questionsPool = [];
+
+grammarLessons.forEach(lesson => {
+  if (lesson.data.miniQuiz) {
+    lesson.data.miniQuiz.forEach((q, idx) => {
+      questionsPool.push({
+        id: `grammar-${lesson.id}-${idx}`,
+        question: q.question,
+        options: q.options,
+        answer: q.answer,
+        explanation: q.explanation,
+        sourceTitle: lesson.data.title,
+        sourceUrl: `/grammar/${lesson.id.replace(/\.mdx?$/, '')}`
+      });
+    });
+  }
+});
+
+listeningLessons.forEach(lesson => {
+  if (lesson.data.miniQuiz) {
+    lesson.data.miniQuiz.forEach((q, idx) => {
+      questionsPool.push({
+        id: `listening-${lesson.id}-${idx}`,
+        question: q.question,
+        options: q.options,
+        answer: q.answer,
+        explanation: q.explanation,
+        sourceTitle: lesson.data.title,
+        sourceUrl: `/listening/${lesson.id.replace(/\.mdx?$/, '')}`
+      });
+    });
+  }
+});
+---
+
+<Layout title="Luyện đề ngẫu nhiên" description="Luyện tập trắc nghiệm ngẫu nhiên từ kho câu hỏi TOEIC.">
+  <div class="mb-8 flex flex-col sm:flex-row justify-between sm:items-center gap-4">
+    <div>
+      <nav class="flex text-sm text-slate-500 mb-4" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-blue-600">Trang chủ</a>
+        <span class="mx-2">/</span>
+        <span class="text-slate-900 dark:text-slate-300 font-medium">Luyện đề ngẫu nhiên</span>
+      </nav>
+      <h1 class="text-3xl font-outfit font-bold tracking-tight">Luyện Đề Ngẫu Nhiên</h1>
+      <p class="text-slate-600 dark:text-slate-400 mt-2">Tổng số câu hỏi hiện có: <strong class="text-blue-600 dark:text-blue-400">{questionsPool.length}</strong> câu.</p>
+    </div>
+    
+    <div>
+      <button id="start-exam-btn" class="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-medium shadow-md transition-all">
+        Bắt đầu làm đề 10 câu
+      </button>
+    </div>
+  </div>
+
+  <!-- Intro Screen -->
+  <div id="intro-screen" class="p-8 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-center space-y-6">
+    <div class="w-16 h-16 rounded-2xl bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center text-blue-600 dark:text-blue-400 mx-auto text-3xl">📝</div>
+    <div class="max-w-md mx-auto space-y-2">
+      <h2 class="text-2xl font-outfit font-bold">Trình tạo đề thi thông minh</h2>
+      <p class="text-slate-600 dark:text-slate-400 text-sm">Hệ thống sẽ lấy ngẫu nhiên 10 câu hỏi từ kho bài tập Ngữ pháp & Nghe hiểu. Các câu trả lời sai sẽ tự động được lưu vào Sổ tay sửa lỗi.</p>
+    </div>
+  </div>
+
+  <!-- Quiz Play Area (Hidden by default) -->
+  <div id="quiz-area" class="hidden space-y-6">
+    <!-- Progress Indicator -->
+    <div class="flex items-center justify-between text-sm text-slate-500">
+      <span id="quiz-progress-text">Câu hỏi 1 / 10</span>
+      <span id="quiz-timer">Thời gian: 00:00</span>
+    </div>
+    <div class="w-full bg-slate-200 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
+      <div id="quiz-progress-bar" class="bg-blue-600 h-2 w-0 transition-all duration-300"></div>
+    </div>
+
+    <!-- Question Card -->
+    <div class="p-6 sm:p-8 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-6">
+      <h3 id="current-question-text" class="text-lg font-outfit font-bold text-slate-900 dark:text-slate-100"></h3>
+      
+      <!-- Options Container -->
+      <div id="current-options-container" class="grid grid-cols-1 gap-3"></div>
+
+      <!-- Explanation Card (Hidden by default) -->
+      <div id="current-explanation-card" class="hidden p-4 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-150 dark:border-slate-850 text-sm">
+        <p class="font-bold text-emerald-600 dark:text-emerald-400" id="correct-answer-label"></p>
+        <p class="text-slate-600 dark:text-slate-400 mt-2" id="explanation-text"></p>
+        <p class="text-xs text-slate-400 mt-4">
+          Nguồn bài học: <a id="source-lesson-link" href="#" class="text-blue-500 hover:underline"></a>
+        </p>
+      </div>
+    </div>
+
+    <!-- Navigation buttons -->
+    <div class="flex justify-between items-center">
+      <button id="next-question-btn" class="hidden px-5 py-2.5 rounded-xl bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 font-semibold text-sm transition-all ml-auto">
+        Câu tiếp theo
+      </button>
+    </div>
+  </div>
+
+  <!-- Result Screen (Hidden by default) -->
+  <div id="result-screen" class="hidden p-8 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-center space-y-6">
+    <div class="w-16 h-16 rounded-2xl bg-emerald-100 dark:bg-emerald-950/50 flex items-center justify-center text-emerald-600 dark:text-emerald-400 mx-auto text-3xl">🎉</div>
+    <div class="max-w-md mx-auto space-y-2">
+      <h2 class="text-2xl font-outfit font-bold">Hoàn thành bài luyện tập!</h2>
+      <p class="text-slate-600 dark:text-slate-400 text-sm" id="result-summary-text"></p>
+    </div>
+    <div class="flex justify-center gap-4">
+      <button id="retry-btn" class="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm transition-all">
+        Làm đề mới
+      </button>
+      <a href="/error-notebook" class="px-5 py-2.5 rounded-xl bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-medium text-sm transition-all">
+        Sổ tay sửa lỗi
+      </a>
+    </div>
+  </div>
+
+  <script is:inline define:vars={{ questionsPool }}>
+    let currentExamQuestions = [];
+    let currentQuestionIndex = 0;
+    let correctAnswersCount = 0;
+    let examTimeSeconds = 0;
+    let timerInterval = null;
+
+    const startBtn = document.getElementById('start-exam-btn');
+    const introScreen = document.getElementById('intro-screen');
+    const quizArea = document.getElementById('quiz-area');
+    const resultScreen = document.getElementById('result-screen');
+    
+    const progressText = document.getElementById('quiz-progress-text');
+    const progressBar = document.getElementById('quiz-progress-bar');
+    const timerText = document.getElementById('quiz-timer');
+    
+    const questionText = document.getElementById('current-question-text');
+    const optionsContainer = document.getElementById('current-options-container');
+    const explanationCard = document.getElementById('current-explanation-card');
+    const correctLabel = document.getElementById('correct-answer-label');
+    const explanationText = document.getElementById('explanation-text');
+    const sourceLink = document.getElementById('source-lesson-link');
+    
+    const nextBtn = document.getElementById('next-question-btn');
+    const retryBtn = document.getElementById('retry-btn');
+
+    function shuffleArray(array) {
+      return array.sort(() => Math.random() - 0.5);
+    }
+
+    function startExam() {
+      // Pick 10 random questions
+      const shuffled = shuffleArray([...questionsPool]);
+      currentExamQuestions = shuffled.slice(0, Math.min(10, shuffled.length));
+      
+      currentQuestionIndex = 0;
+      correctAnswersCount = 0;
+      examTimeSeconds = 0;
+      
+      introScreen.classList.add('hidden');
+      resultScreen.classList.add('hidden');
+      quizArea.classList.remove('hidden');
+      startBtn.classList.add('hidden');
+
+      // Start timer
+      clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        examTimeSeconds++;
+        const minutes = String(Math.floor(examTimeSeconds / 60)).padStart(2, '0');
+        const seconds = String(examTimeSeconds % 60).padStart(2, '0');
+        timerText.textContent = `Thời gian: ${minutes}:${seconds}`;
+      }, 1000);
+
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      explanationCard.classList.add('hidden');
+      nextBtn.classList.add('hidden');
+
+      const q = currentExamQuestions[currentQuestionIndex];
+      
+      // Update progress
+      progressText.textContent = `Câu hỏi ${currentQuestionIndex + 1} / ${currentExamQuestions.length}`;
+      progressBar.style.width = `${((currentQuestionIndex) / currentExamQuestions.length) * 100}%`;
+      
+      questionText.textContent = q.question;
+      optionsContainer.innerHTML = '';
+
+      q.options.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = "w-full text-left p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-blue-500 hover:bg-blue-50/10 transition-all text-sm font-sans";
+        btn.textContent = opt;
+        btn.addEventListener('click', () => handleOptionSelection(btn, opt, q));
+        optionsContainer.appendChild(btn);
+      });
+    }
+
+    function handleOptionSelection(selectedBtn, selectedOption, question) {
+      const allOptionButtons = optionsContainer.querySelectorAll('button');
+      
+      // Disable options
+      allOptionButtons.forEach(btn => {
+        btn.disabled = true;
+        if (btn.textContent === question.answer) {
+          btn.className = "w-full text-left p-4 rounded-xl border border-emerald-500 bg-emerald-50 text-emerald-800 dark:bg-emerald-950/20 dark:border-emerald-800 dark:text-emerald-300 text-sm font-semibold";
+        }
+      });
+
+      if (selectedOption === question.answer) {
+        correctAnswersCount++;
+      } else {
+        selectedBtn.className = "w-full text-left p-4 rounded-xl border border-red-500 bg-red-50 text-red-800 dark:bg-red-950/20 dark:border-red-800 dark:text-red-300 text-sm font-semibold";
+        saveToErrorNotebook(question, selectedOption);
+      }
+
+      // Show explanation
+      correctLabel.textContent = `Đáp án đúng: ${question.answer}`;
+      explanationText.textContent = question.explanation;
+      sourceLink.href = question.sourceUrl;
+      sourceLink.textContent = question.sourceTitle;
+      explanationCard.classList.remove('hidden');
+
+      // Next button trigger
+      nextBtn.classList.remove('hidden');
+    }
+
+    function saveToErrorNotebook(question, userChoice) {
+      let notebook = JSON.parse(localStorage.getItem('error-notebook') || '[]');
+      // Avoid duplicate logs of the same question
+      if (!notebook.some(item => item.id === question.id)) {
+        notebook.push({
+          ...question,
+          userChoice,
+          timestamp: new Date().getTime()
+        });
+        localStorage.setItem('error-notebook', JSON.stringify(notebook));
+      }
+    }
+
+    function nextQuestion() {
+      currentQuestionIndex++;
+      if (currentQuestionIndex < currentExamQuestions.length) {
+        renderQuestion();
+      } else {
+        finishExam();
+      }
+    }
+
+    function finishExam() {
+      clearInterval(timerInterval);
+      quizArea.classList.add('hidden');
+      resultScreen.classList.remove('hidden');
+      startBtn.classList.remove('hidden');
+      startBtn.textContent = "Làm đề mới";
+
+      const scorePercent = Math.round((correctAnswersCount / currentExamQuestions.length) * 100);
+      document.getElementById('result-summary-text').innerHTML = `Bạn trả lời đúng <strong>${correctAnswersCount}</strong> / 10 câu (${scorePercent}%).<br/>Thời gian hoàn thành: ${Math.floor(examTimeSeconds / 60)} phút ${examTimeSeconds % 60} giây.`;
+
+      // Save statistics to localStorage
+      updateStats(correctAnswersCount, currentExamQuestions.length);
+    }
+
+    function updateStats(correct, total) {
+      let stats = JSON.parse(localStorage.getItem('user-stats') || '{"totalAnswered":0,"totalCorrect":0,"streak":0,"lastActiveDate":""}');
+      stats.totalAnswered += total;
+      stats.totalCorrect += correct;
+      
+      const todayStr = new Date().toDateString();
+      if (stats.lastActiveDate !== todayStr) {
+        // Daily streak increment
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        if (stats.lastActiveDate === yesterday.toDateString() || stats.lastActiveDate === "") {
+          stats.streak++;
+        } else {
+          stats.streak = 1;
+        }
+        stats.lastActiveDate = todayStr;
+      }
+
+      localStorage.setItem('user-stats', JSON.stringify(stats));
+    }
+
+    startBtn.addEventListener('click', startExam);
+    nextBtn.addEventListener('click', nextQuestion);
+    retryBtn.addEventListener('click', startExam);
+  </script>
+</Layout>

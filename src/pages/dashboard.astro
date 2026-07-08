@@ -1,0 +1,116 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Bảng điều khiển học tập" description="Thống kê tiến độ, chuỗi liên tục (streak) và sổ tay sửa lỗi của bạn.">
+  <div class="mb-8">
+    <h1 class="text-3xl font-outfit font-bold tracking-tight">Bảng Điều Khiển Học Tập</h1>
+    <p class="text-slate-650 dark:text-slate-400 mt-1">Theo dõi tiến độ, hiệu suất làm bài và chuỗi học tập hàng ngày.</p>
+  </div>
+
+  <!-- Stats Grid -->
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
+    <!-- Streak -->
+    <div class="p-6 rounded-2xl bg-gradient-to-br from-orange-50 to-amber-50 dark:from-slate-900 dark:to-slate-900 border border-orange-100 dark:border-slate-800 flex items-center justify-between shadow-sm">
+      <div>
+        <span class="text-xs text-orange-600 dark:text-orange-400 font-semibold uppercase tracking-wider">Học tập đều đặn</span>
+        <h3 class="text-3xl font-outfit font-bold text-slate-900 dark:text-slate-100 mt-1"><span id="streak-count">0</span> ngày</h3>
+        <p class="text-xs text-slate-500 mt-1">Chuỗi ngày hoạt động liên tiếp</p>
+      </div>
+      <div class="text-4xl">🔥</div>
+    </div>
+
+    <!-- Questions Answered -->
+    <div class="p-6 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-slate-900 dark:to-slate-900 border border-blue-100 dark:border-slate-800 flex items-center justify-between shadow-sm">
+      <div>
+        <span class="text-xs text-blue-600 dark:text-blue-400 font-semibold uppercase tracking-wider">Luyện tập trắc nghiệm</span>
+        <h3 class="text-3xl font-outfit font-bold text-slate-900 dark:text-slate-100 mt-1"><span id="answered-count">0</span> câu</h3>
+        <p class="text-xs text-slate-500 mt-1">Tổng câu hỏi đã trả lời</p>
+      </div>
+      <div class="text-4xl">📊</div>
+    </div>
+
+    <!-- Accuracy Rate -->
+    <div class="p-6 rounded-2xl bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-slate-900 dark:to-slate-900 border border-emerald-100 dark:border-slate-800 flex items-center justify-between shadow-sm">
+      <div>
+        <span class="text-xs text-emerald-600 dark:text-emerald-400 font-semibold uppercase tracking-wider font-sans">Tỷ lệ chính xác</span>
+        <h3 class="text-3xl font-outfit font-bold text-slate-900 dark:text-slate-100 mt-1"><span id="accuracy-count">0%</span></h3>
+        <p class="text-xs text-slate-500 mt-1">Độ chính xác trung bình</p>
+      </div>
+      <div class="text-4xl">🎯</div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <!-- Quick Actions -->
+    <div class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-4">
+      <h2 class="text-xl font-outfit font-bold">Lối tắt học tập</h2>
+      <div class="grid grid-cols-1 gap-3">
+        <a href="/grammar" class="flex items-center justify-between p-4 rounded-xl border border-slate-200 dark:border-slate-805 hover:bg-slate-50 dark:hover:bg-slate-950 transition-all">
+          <div class="flex items-center gap-3">
+            <span class="text-lg">📘</span>
+            <div>
+              <p class="text-sm font-semibold">Tiếp tục học Ngữ pháp</p>
+              <p class="text-xs text-slate-500">14 bài học trọng tâm TOEIC</p>
+            </div>
+          </div>
+          <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+        </a>
+
+        <a href="/listening" class="flex items-center justify-between p-4 rounded-xl border border-slate-200 dark:border-slate-805 hover:bg-slate-50 dark:hover:bg-slate-950 transition-all">
+          <div class="flex items-center gap-3">
+            <span class="text-lg">🎧</span>
+            <div>
+              <p class="text-sm font-semibold">Tiếp tục Luyện nghe</p>
+              <p class="text-xs text-slate-500">15 bài luyện nghe Part 1 - 4</p>
+            </div>
+          </div>
+          <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+        </a>
+
+        <a href="/practice" class="flex items-center justify-between p-4 rounded-xl border border-slate-200 dark:border-slate-805 hover:bg-slate-50 dark:hover:bg-slate-950 transition-all">
+          <div class="flex items-center gap-3">
+            <span class="text-lg">⚡️</span>
+            <div>
+              <p class="text-sm font-semibold">Làm đề thi ngẫu nhiên</p>
+              <p class="text-xs text-slate-500">Đề thi thử 10 câu trắc nghiệm</p>
+            </div>
+          </div>
+          <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Error Notebook Preview -->
+    <div class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex flex-col justify-between">
+      <div class="space-y-4">
+        <h2 class="text-xl font-outfit font-bold">Sổ tay sửa lỗi</h2>
+        <p class="text-sm text-slate-600 dark:text-slate-400">Bạn đang có <strong class="text-red-500 font-bold" id="error-count-label">0</strong> câu hỏi bị làm sai cần ôn tập lại.</p>
+        <p class="text-xs text-slate-500 leading-relaxed">Spaced Repetition khuyên bạn nên làm lại các câu hỏi bị làm sai này sau 1 ngày, 3 ngày và 7 ngày để khắc phục triệt để lỗ hổng kiến thức.</p>
+      </div>
+
+      <div class="mt-6">
+        <a href="/error-notebook" class="block text-center w-full py-3 rounded-xl bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 text-sm font-semibold transition-all">
+          Mở Sổ Tay Sửa Lỗi
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    // Load data from localStorage
+    const stats = JSON.parse(localStorage.getItem('user-stats') || '{"totalAnswered":0,"totalCorrect":0,"streak":0,"lastActiveDate":""}');
+    const errors = JSON.parse(localStorage.getItem('error-notebook') || '[]');
+
+    document.getElementById('streak-count').textContent = stats.streak;
+    document.getElementById('answered-count').textContent = stats.totalAnswered;
+    document.getElementById('error-count-label').textContent = errors.length;
+
+    if (stats.totalAnswered > 0) {
+      const accuracy = Math.round((stats.totalCorrect / stats.totalAnswered) * 100);
+      document.getElementById('accuracy-count').textContent = `${accuracy}%`;
+    } else {
+      document.getElementById('accuracy-count').textContent = '0%';
+    }
+  </script>
+</Layout>

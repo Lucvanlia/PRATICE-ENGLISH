@@ -1,0 +1,17 @@
+# Scratch and Temp files
+scratch/
+.agent/
+node_modules/
+.astro/
+dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+.DS_Store
+.env*
+!.env.example
+# Large ZIP and PDF resource files
+*.zip
+*.pdf
+tailieuhoc/

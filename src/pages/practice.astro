@@ -82,7 +82,12 @@ listeningLessons.forEach(lesson => {
 
     <!-- Question Card -->
     <div class="p-6 sm:p-8 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-6">
-      <h3 id="current-question-text" class="text-lg font-outfit font-bold text-slate-900 dark:text-slate-100"></h3>
+      <div class="flex justify-between items-start gap-4">
+        <h3 id="current-question-text" class="text-lg font-outfit font-bold text-slate-900 dark:text-slate-100 flex-grow"></h3>
+        <button id="practice-audio-btn" class="hidden p-2 rounded-lg bg-blue-50 dark:bg-blue-950/45 text-blue-600 dark:text-blue-400 hover:ring-2 hover:ring-blue-500 flex-shrink-0 transition-all text-sm" title="Nghe câu hỏi này">
+          🔊 Nghe
+        </button>
+      </div>
       
       <!-- Options Container -->
       <div id="current-options-container" class="grid grid-cols-1 gap-3"></div>
@@ -123,6 +128,16 @@ listeningLessons.forEach(lesson => {
   </div>
 
   <script is:inline define:vars={{ questionsPool }}>
+    function playText(text) {
+      if (typeof window === 'undefined' || !window.speechSynthesis) return;
+      window.speechSynthesis.cancel();
+      // Remove underscore placeholders for reading
+      const clean = text.replace(/\([^)]*\)/g, '').replace(/\[[^\]]*\]/g, '').replace(/_/g, ' blank ').trim();
+      const utterance = new SpeechSynthesisUtterance(clean);
+      utterance.lang = 'en-US';
+      window.speechSynthesis.speak(utterance);
+    }
+
     let currentExamQuestions = [];
     let currentQuestionIndex = 0;
     let correctAnswersCount = 0;
@@ -189,6 +204,20 @@ listeningLessons.forEach(lesson => {
       progressBar.style.width = `${((currentQuestionIndex) / currentExamQuestions.length) * 100}%`;
       
       questionText.textContent = q.question;
+      
+      // Audio display handling
+      const audioBtn = document.getElementById('practice-audio-btn');
+      if (q.id.startsWith('listening-')) {
+        audioBtn.classList.remove('hidden');
+        audioBtn.onclick = () => {
+          playText(q.question);
+        };
+        // Auto play listening questions
+        setTimeout(() => playText(q.question), 200);
+      } else {
+        audioBtn.classList.add('hidden');
+      }
+
       optionsContainer.innerHTML = '';
 
       q.options.forEach(opt => {

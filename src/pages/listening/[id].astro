@@ -60,15 +60,20 @@ const { data } = lesson;
         <Content />
       </article>
 
-      <!-- Examples Section -->
+      <!-- Examples Section with Speaker Buttons -->
       <div class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
         <h3 class="text-xl font-outfit font-bold mb-4">Ví dụ thực tế</h3>
         <div class="space-y-4">
           {data.examples.map(ex => (
-            <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-850">
-              <p class="text-sm font-semibold text-blue-600 dark:text-blue-400">EN: {ex.eng}</p>
-              <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">VI: {ex.vie}</p>
-              {ex.note && <p class="text-xs text-slate-500 dark:text-slate-500 italic mt-2">💡 Note: {ex.note}</p>}
+            <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-100 dark:border-slate-850 flex justify-between items-start gap-4">
+              <div class="space-y-1 flex-grow">
+                <p class="text-sm font-semibold text-blue-600 dark:text-blue-400">EN: {ex.eng}</p>
+                <p class="text-sm text-slate-655 dark:text-slate-400">VI: {ex.vie}</p>
+                {ex.note && <p class="text-xs text-slate-500 dark:text-slate-500 italic mt-2">💡 Ghi chú: {ex.note}</p>}
+              </div>
+              <button class="play-audio-btn p-2 rounded-lg bg-blue-50 dark:bg-blue-950/45 text-blue-600 dark:text-blue-300 hover:ring-2 hover:ring-blue-500 flex-shrink-0 transition-all text-sm" data-text={ex.eng} title="Nghe câu này">
+                🔊 Phát âm
+              </button>
             </div>
           ))}
         </div>
@@ -76,21 +81,51 @@ const { data } = lesson;
 
       <!-- Common Mistakes Section -->
       <div class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
-        <h3 class="text-xl font-outfit font-bold mb-4">Lỗi sai thường gặp (Bẫy)</h3>
+        <h3 class="text-xl font-outfit font-bold mb-4">Bẫy & Lỗi sai thường gặp</h3>
         <div class="space-y-4">
           {data.commonMistakes.map(m => (
             <div class="p-4 rounded-xl bg-red-50/50 dark:bg-red-950/10 border border-red-100 dark:border-red-900/30">
               <div class="text-sm text-red-600 dark:text-red-400 line-through">Bẫy: {m.mistake}</div>
-              <div class="text-sm text-emerald-600 dark:text-emerald-400 font-semibold mt-1">Sửa đúng: {m.correction}</div>
-              <p class="text-xs text-slate-600 dark:text-slate-400 mt-2">👉 Giải thích: {m.explanation}</p>
+              <div class="text-sm text-emerald-600 dark:text-emerald-400 font-semibold mt-1">Cách tránh bẫy: {m.correction}</div>
+              <p class="text-xs text-slate-655 dark:text-slate-450 mt-2">👉 Giải thích bẫy: {m.explanation}</p>
             </div>
           ))}
         </div>
       </div>
     </div>
 
-    <!-- Right column: Memory Tips, Flashcards, Quiz and Homework -->
+    <!-- Right column: Audio Controller Widget, Memory Tips, Quiz and Homework -->
     <div class="space-y-8">
+      <!-- TTS Controller Panel -->
+      <div class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-4">
+        <h3 class="text-lg font-outfit font-bold flex items-center gap-2">
+          <span>🎧</span> Bảng điều khiển giọng đọc
+        </h3>
+        <div class="space-y-3 text-xs sm:text-sm">
+          <div class="space-y-1">
+            <label class="font-semibold text-slate-500">Giọng đọc (Voice):</label>
+            <select id="tts-voice-select" class="w-full p-2 rounded-lg border border-slate-250 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 font-sans"></select>
+          </div>
+          <div class="space-y-1">
+            <label class="font-semibold text-slate-500">Tốc độ đọc (Speed):</label>
+            <div class="grid grid-cols-3 gap-2" id="tts-speed-container">
+              <button class="tts-rate-btn p-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-semibold hover:bg-slate-100 dark:hover:bg-slate-800 transition-all" data-rate="0.75">Chậm (0.75x)</button>
+              <button class="tts-rate-btn p-1.5 rounded-lg border border-blue-500 bg-blue-50 text-blue-700 dark:bg-blue-950/20 dark:text-blue-300 text-xs font-bold transition-all" data-rate="1">Thường (1.0x)</button>
+              <button class="tts-rate-btn p-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-semibold hover:bg-slate-100 dark:hover:bg-slate-800 transition-all" data-rate="1.2">Nhanh (1.2x)</button>
+            </div>
+          </div>
+          <div id="tts-visualizer" class="hidden items-center justify-center gap-2 py-2 border-t border-slate-100 dark:border-slate-800">
+            <span class="text-xs text-slate-500 animate-pulse">Đang đọc âm thanh...</span>
+            <div class="flex gap-1 items-end h-4">
+              <span class="w-1 bg-blue-500 rounded animate-wave h-2" style="animation-delay: 0.1s"></span>
+              <span class="w-1 bg-blue-500 rounded animate-wave h-3.5" style="animation-delay: 0.3s"></span>
+              <span class="w-1 bg-blue-500 rounded animate-wave h-1.5" style="animation-delay: 0.5s"></span>
+              <span class="w-1 bg-blue-500 rounded animate-wave h-3" style="animation-delay: 0.7s"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Memory Tips -->
       <div class="p-6 rounded-2xl bg-amber-50/50 dark:bg-amber-950/10 border border-amber-100 dark:border-amber-900/20">
         <h3 class="text-lg font-outfit font-bold text-amber-900 dark:text-amber-300 mb-3">Mẹo ghi nhớ</h3>
@@ -104,13 +139,18 @@ const { data } = lesson;
         </ul>
       </div>
 
-      <!-- Quiz Engine -->
+      <!-- Quiz Engine with Speaker Icon -->
       <div class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
         <h3 class="text-lg font-outfit font-bold mb-4">Trắc nghiệm nhanh</h3>
         <div class="space-y-6">
           {data.miniQuiz.map((q, qIndex) => (
             <div class="quiz-block space-y-3" data-correct={q.answer} data-index={qIndex}>
-              <p class="text-sm font-semibold text-slate-800 dark:text-slate-200">Q{qIndex + 1}: {q.question}</p>
+              <div class="flex justify-between items-start gap-2">
+                <p class="text-sm font-semibold text-slate-800 dark:text-slate-200 flex-grow">Q{qIndex + 1}: {q.question}</p>
+                <button class="play-audio-btn p-1.5 rounded bg-slate-100 dark:bg-slate-800 hover:ring-2 hover:ring-blue-500 text-xs flex-shrink-0 transition-all" data-text={q.question} title="Nghe câu hỏi">
+                  🔊 Nghe
+                </button>
+              </div>
               <div class="space-y-2">
                 {q.options.map(opt => (
                   <button class="w-full text-left p-3 text-xs sm:text-sm rounded-xl border border-slate-200 dark:border-slate-800 hover:border-blue-500 hover:bg-blue-50/10 transition-all quiz-option" data-option={opt}>
@@ -133,7 +173,12 @@ const { data } = lesson;
         <div class="space-y-4">
           {data.homework.map((hw, idx) => (
             <div class="space-y-2">
-              <p class="text-sm text-slate-800 dark:text-slate-200">Ex {idx + 1}: {hw.question}</p>
+              <div class="flex justify-between items-start gap-2">
+                <p class="text-sm text-slate-800 dark:text-slate-200 flex-grow">Ex {idx + 1}: {hw.question}</p>
+                <button class="play-audio-btn p-1.5 rounded bg-slate-100 dark:bg-slate-800 hover:ring-2 hover:ring-blue-500 text-xs flex-shrink-0 transition-all" data-text={hw.question} title="Nghe">
+                  🔊
+                </button>
+              </div>
               <details class="group">
                 <summary class="list-none flex items-center gap-1 text-xs font-semibold text-blue-600 dark:text-blue-400 cursor-pointer select-none">
                   <span>Hiện đáp án</span>
@@ -152,6 +197,120 @@ const { data } = lesson;
 
   <!-- Interactive script -->
   <script is:inline>
+    // TTS Audio Player Engine
+    let currentRate = 1.0;
+    let selectedVoiceName = '';
+
+    const voiceSelect = document.getElementById('tts-voice-select');
+    const visualizer = document.getElementById('tts-visualizer');
+    const playBtns = document.querySelectorAll('.play-audio-btn');
+
+    // Populate English voices
+    function populateVoices() {
+      if (typeof window === 'undefined' || !window.speechSynthesis) return;
+      
+      const voices = window.speechSynthesis.getVoices();
+      const englishVoices = voices.filter(v => v.lang.startsWith('en-'));
+      
+      voiceSelect.innerHTML = '';
+      if (englishVoices.length === 0) {
+        const opt = document.createElement('option');
+        opt.textContent = "Hệ thống mặc định (Default English)";
+        opt.value = "";
+        voiceSelect.appendChild(opt);
+        return;
+      }
+
+      englishVoices.forEach(voice => {
+        const opt = document.createElement('option');
+        opt.value = voice.name;
+        opt.textContent = `${voice.name} (${voice.lang})`;
+        voiceSelect.appendChild(opt);
+      });
+
+      // Default to Google US English or Microsoft Zira if available
+      const primaryVoice = englishVoices.find(v => v.name.includes('Google US English') || v.name.includes('Natural') || v.name.includes('Zira'));
+      if (primaryVoice) {
+        voiceSelect.value = primaryVoice.name;
+        selectedVoiceName = primaryVoice.name;
+      } else {
+        selectedVoiceName = englishVoices[0].name;
+      }
+    }
+
+    if (typeof window !== 'undefined' && window.speechSynthesis) {
+      window.speechSynthesis.onvoiceschanged = populateVoices;
+      populateVoices();
+    }
+
+    voiceSelect?.addEventListener('change', () => {
+      selectedVoiceName = voiceSelect.value;
+    });
+
+    // Speed button click handler
+    const rateBtns = document.querySelectorAll('.tts-rate-btn');
+    rateBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        rateBtns.forEach(b => {
+          b.classList.remove('border-blue-500', 'bg-blue-50', 'text-blue-700', 'dark:bg-blue-950/20', 'dark:text-blue-300', 'font-bold');
+          b.classList.add('border-slate-200', 'dark:border-slate-700', 'font-semibold');
+        });
+        btn.classList.remove('border-slate-200', 'dark:border-slate-700', 'font-semibold');
+        btn.classList.add('border-blue-500', 'bg-blue-50', 'text-blue-700', 'dark:bg-blue-950/20', 'dark:text-blue-300', 'font-bold');
+        currentRate = parseFloat(btn.getAttribute('data-rate'));
+      });
+    });
+
+    // Play function
+    function playText(text) {
+      if (typeof window === 'undefined' || !window.speechSynthesis) {
+        alert("Trình duyệt của bạn không hỗ trợ công cụ phát âm thanh (Speech Synthesis).");
+        return;
+      }
+
+      window.speechSynthesis.cancel(); // Stop current speech
+
+      // Remove parenthesis and brackets from reading text to keep speech clean
+      const cleanText = text.replace(/\([^)]*\)/g, '').replace(/\[[^\]]*\]/g, '').replace(/_/g, ' blank ').trim();
+
+      const utterance = new SpeechSynthesisUtterance(cleanText);
+      utterance.rate = currentRate;
+      utterance.lang = 'en-US';
+
+      const voices = window.speechSynthesis.getVoices();
+      const activeVoice = voices.find(v => v.name === selectedVoiceName);
+      if (activeVoice) {
+        utterance.voice = activeVoice;
+      }
+
+      utterance.onstart = () => {
+        visualizer?.classList.remove('hidden');
+        visualizer?.classList.add('flex');
+      };
+
+      utterance.onend = () => {
+        visualizer?.classList.add('hidden');
+        visualizer?.classList.remove('flex');
+      };
+
+      utterance.onerror = () => {
+        visualizer?.classList.add('hidden');
+        visualizer?.classList.remove('flex');
+      };
+
+      window.speechSynthesis.speak(utterance);
+    }
+
+    playBtns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const text = btn.getAttribute('data-text');
+        if (text) {
+          playText(text);
+        }
+      });
+    });
+
     // Quiz logic
     const quizBlocks = document.querySelectorAll('.quiz-block');
     quizBlocks.forEach(block => {
@@ -180,4 +339,14 @@ const { data } = lesson;
       });
     });
   </script>
+
+  <style>
+    @keyframes wave {
+      0%, 100% { height: 4px; }
+      50% { height: 16px; }
+    }
+    .animate-wave {
+      animation: wave 1s ease-in-out infinite;
+    }
+  </style>
 </Layout>

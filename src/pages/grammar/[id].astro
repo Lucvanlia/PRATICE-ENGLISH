@@ -104,31 +104,6 @@ const { data } = lesson;
         </ul>
       </div>
 
-      <!-- Interactive Flashcards -->
-      <div class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
-        <h3 class="text-lg font-outfit font-bold mb-3">Flashcards ({data.flashcards.length})</h3>
-        <div class="relative w-full h-48 group persist-3d cursor-pointer" id="flashcard-container">
-          <!-- Card Element -->
-          <div class="absolute w-full h-full transition-transform duration-500 transform-style-3d border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm bg-slate-50 dark:bg-slate-950 flex flex-col items-center justify-center p-6 text-center" id="flashcard-card">
-            <!-- Front -->
-            <div class="absolute backface-hidden w-full px-6 flex flex-col items-center justify-center" id="flashcard-front">
-              <span class="text-xs text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2">Mặt trước</span>
-              <p class="font-outfit font-bold text-slate-800 dark:text-slate-200 text-lg" id="front-text"></p>
-            </div>
-            <!-- Back -->
-            <div class="absolute backface-hidden w-full px-6 rotate-y-180 flex flex-col items-center justify-center" id="flashcard-back">
-              <span class="text-xs text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2">Mặt sau</span>
-              <p class="font-sans text-blue-600 dark:text-blue-400 text-base" id="back-text"></p>
-            </div>
-          </div>
-        </div>
-        <div class="flex items-center justify-between mt-4">
-          <button id="prev-card" class="px-3 py-1.5 rounded-lg border border-slate-250 dark:border-slate-700 text-xs font-semibold hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-30 disabled:hover:bg-transparent" disabled>Trước</button>
-          <span class="text-xs text-slate-500" id="card-indicator">1 / 1</span>
-          <button id="next-card" class="px-3 py-1.5 rounded-lg border border-slate-250 dark:border-slate-700 text-xs font-semibold hover:bg-slate-100 dark:hover:bg-slate-800 disabled:opacity-30 disabled:hover:bg-transparent">Sau</button>
-        </div>
-      </div>
-
       <!-- Quiz Engine -->
       <div class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
         <h3 class="text-lg font-outfit font-bold mb-4">Trắc nghiệm nhanh</h3>
@@ -145,7 +120,7 @@ const { data } = lesson;
               </div>
               <div class="quiz-explanation hidden p-3 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-150 dark:border-slate-850 text-xs mt-3">
                 <p class="font-bold text-emerald-600 dark:text-emerald-400">Đáp án: {q.answer}</p>
-                <p class="text-slate-600 dark:text-slate-400 mt-1">{q.explanation}</p>
+                <p class="text-slate-650 dark:text-slate-400 mt-1">{q.explanation}</p>
               </div>
             </div>
           ))}
@@ -176,59 +151,7 @@ const { data } = lesson;
   </div>
 
   <!-- Interactive script -->
-  <script is:inline define:vars={{ flashcards: data.flashcards }}>
-    // Flashcard interaction logic
-    let currentCardIndex = 0;
-    const cardEl = document.getElementById('flashcard-card');
-    const containerEl = document.getElementById('flashcard-container');
-    const frontTextEl = document.getElementById('front-text');
-    const backTextEl = document.getElementById('back-text');
-    const prevBtn = document.getElementById('prev-card');
-    const nextBtn = document.getElementById('next-card');
-    const indicatorEl = document.getElementById('card-indicator');
-
-    function updateCard() {
-      if (cardEl.classList.contains('rotate-y-180')) {
-        cardEl.classList.remove('rotate-y-180');
-        // Delay content update until flip finishes
-        setTimeout(setCardContent, 150);
-      } else {
-        setCardContent();
-      }
-      
-      prevBtn.disabled = currentCardIndex === 0;
-      nextBtn.disabled = currentCardIndex === flashcards.length - 1;
-      indicatorEl.textContent = `${currentCardIndex + 1} / ${flashcards.length}`;
-    }
-
-    function setCardContent() {
-      const card = flashcards[currentCardIndex];
-      frontTextEl.textContent = card.front;
-      backTextEl.textContent = card.back;
-    }
-
-    containerEl?.addEventListener('click', () => {
-      cardEl.classList.toggle('rotate-y-180');
-    });
-
-    prevBtn?.addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (currentCardIndex > 0) {
-        currentCardIndex--;
-        updateCard();
-      }
-    });
-
-    nextBtn?.addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (currentCardIndex < flashcards.length - 1) {
-        currentCardIndex++;
-        updateCard();
-      }
-    });
-
-    updateCard();
-
+  <script is:inline>
     // Quiz logic
     const quizBlocks = document.querySelectorAll('.quiz-block');
     quizBlocks.forEach(block => {
@@ -257,20 +180,4 @@ const { data } = lesson;
       });
     });
   </script>
-
-  <style>
-    /* 3D transforms */
-    .persist-3d {
-      perspective: 1000px;
-    }
-    .transform-style-3d {
-      transform-style: preserve-3d;
-    }
-    .backface-hidden {
-      backface-visibility: hidden;
-    }
-    .rotate-y-180 {
-      transform: rotateY(180deg);
-    }
-  </style>
 </Layout>

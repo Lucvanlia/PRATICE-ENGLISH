@@ -325,7 +325,7 @@ const sentenceData = {
       <span class="text-slate-900 dark:text-slate-300 font-medium">Tóm tắt công thức</span>
     </nav>
     <h1 class="text-3xl font-outfit font-bold tracking-tight">Tổng Ôn & Tóm Tắt Ngữ Pháp</h1>
-    <p class="text-slate-650 dark:text-slate-400 mt-2">Phân rõ tiếng Việt, cấu trúc công thức và 20 câu ví dụ thực tế cho mỗi bài học.</p>
+    <p class="text-slate-655 dark:text-slate-400 mt-2">Phần tóm tắt công thức dạng bảng trực quan, loại bỏ Flashcard và bổ sung công cụ làm bài ôn tập 20 câu highlight công thức chi tiết cho từng Module.</p>
   </div>
 
   <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
@@ -352,30 +352,50 @@ const sentenceData = {
         return (
           <div id={`content-${idClean}`} class="unit-content-section p-6 sm:p-8 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-6 hidden">
             <!-- Header -->
-            <div>
-              <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 dark:bg-blue-950/30 dark:text-blue-300 mb-3 border border-blue-200 dark:border-blue-800/30">
-                Module {lesson.data.module}
+            <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
+              <div>
+                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 dark:bg-blue-950/30 dark:text-blue-300 mb-3 border border-blue-200 dark:border-blue-800/30">
+                  Module {lesson.data.module}
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-outfit font-bold">{lesson.data.title}</h2>
+                <p class="text-slate-655 dark:text-slate-400 text-sm mt-2">{lesson.data.objective}</p>
               </div>
-              <h2 class="text-2xl sm:text-3xl font-outfit font-bold">{lesson.data.title}</h2>
-              <p class="text-slate-650 dark:text-slate-400 text-sm mt-2">{lesson.data.objective}</p>
+              <button 
+                class="px-5 py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-700 hover:to-teal-600 text-white font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2 start-review-quiz-btn"
+                data-unit={idClean}
+                data-title={lesson.data.title}
+              >
+                <span>📝</span> Làm bài ôn tập 20 câu
+              </button>
             </div>
 
             <hr class="border-slate-150 dark:border-slate-800" />
 
-            <!-- Formulas -->
+            <!-- Formulas Table -->
             {formulas.length > 0 && (
               <div class="space-y-3">
                 <h3 class="text-lg font-outfit font-bold flex items-center gap-2">
-                  <span>📐</span> Công thức cốt lõi
+                  <span>📐</span> Bảng cấu trúc công thức cốt lõi
                 </h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {formulas.map(f => (
-                    <div class="p-4 rounded-xl bg-blue-50/50 dark:bg-blue-950/10 border border-blue-100 dark:border-blue-900/20 space-y-1">
-                      <span class="text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wider">{f.label}</span>
-                      <p class="font-mono font-bold text-slate-800 dark:text-slate-200 text-sm sm:text-base">{f.structure}</p>
-                      <p class="text-xs text-slate-500 dark:text-slate-400 italic">Ex: {f.example}</p>
-                    </div>
-                  ))}
+                <div class="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-850">
+                  <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-800 text-sm">
+                    <thead class="bg-slate-50 dark:bg-slate-950">
+                      <tr>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Dạng / Thể</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Cấu trúc công thức</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">Ví dụ minh họa</th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200 dark:divide-slate-800 bg-white dark:bg-slate-900 font-sans">
+                      {formulas.map(f => (
+                        <tr>
+                          <td class="px-4 py-3 font-semibold text-slate-900 dark:text-slate-100 whitespace-nowrap">{f.label}</td>
+                          <td class="px-4 py-3 font-mono text-blue-600 dark:text-blue-400 font-bold">{f.structure}</td>
+                          <td class="px-4 py-3 text-slate-600 dark:text-slate-400 italic">{f.example}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               </div>
             )}
@@ -388,7 +408,7 @@ const sentenceData = {
               <div class="p-5 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-150 dark:border-slate-850 space-y-3 text-sm text-slate-700 dark:text-slate-300">
                 <p>{lesson.data.summary}</p>
                 <div class="space-y-2">
-                  <p class="font-bold text-xs uppercase tracking-wider text-slate-500">Mẹo ghi nhớ từ chuyên gia:</p>
+                  <p class="font-bold text-xs uppercase tracking-wider text-slate-500">Mẹo ghi nhớ cốt lõi:</p>
                   <ul class="list-disc pl-5 space-y-1.5 text-xs sm:text-sm">
                     {lesson.data.memoryTips.map(tip => (
                       <li>{tip}</li>
@@ -401,9 +421,9 @@ const sentenceData = {
             <!-- 20 Examples Section -->
             <div class="space-y-4">
               <h3 class="text-lg font-outfit font-bold flex items-center gap-2">
-                <span>📚</span> 20 câu ví dụ thực tế (Anh - Việt)
+                <span>📚</span> 20 câu ví dụ thực tế song ngữ
               </h3>
-              <div class="space-y-3 max-h-[500px] overflow-y-auto pr-2 border border-slate-100 dark:border-slate-850 rounded-xl p-4 bg-slate-50/30 dark:bg-slate-950/20 custom-scrollbar">
+              <div class="space-y-3 max-h-[400px] overflow-y-auto pr-2 border border-slate-150 dark:border-slate-800 rounded-xl p-4 bg-slate-50/30 dark:bg-slate-950/20 custom-scrollbar">
                 {sentences.map((s, idx) => (
                   <div class="p-3 rounded-lg bg-white dark:bg-slate-900 border border-slate-150 dark:border-slate-800 space-y-1 text-xs sm:text-sm shadow-sm">
                     <div class="flex items-start gap-2">
@@ -420,8 +440,8 @@ const sentenceData = {
             
             <!-- Details button -->
             <div class="flex justify-end pt-2">
-              <a href={`${import.meta.env.BASE_URL}grammar/${idClean}`} class="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-750 text-white text-xs font-semibold transition-all">
-                Đến trang chi tiết bài học & Trắc nghiệm
+              <a href={`${import.meta.env.BASE_URL}grammar/${idClean}`} class="px-5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-950 text-slate-800 dark:text-slate-200 text-xs font-semibold transition-all">
+                Đến bài học đầy đủ & Trắc nghiệm nhanh
               </a>
             </div>
           </div>
@@ -430,24 +450,162 @@ const sentenceData = {
     </div>
   </div>
 
-  <!-- Interactive page script -->
+  <!-- Interactive Quiz Modal -->
+  <div id="quiz-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm hidden p-4">
+    <div class="w-full max-w-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-xl p-6 sm:p-8 space-y-6 flex flex-col max-h-[90vh]">
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between">
+        <div>
+          <span class="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider">Bài ôn tập ngữ pháp</span>
+          <h2 id="modal-quiz-title" class="text-xl sm:text-2xl font-outfit font-bold text-slate-900 dark:text-slate-100">Luyện đề 20 câu</h2>
+        </div>
+        <button id="close-modal-btn" class="p-2 rounded-lg text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-650 transition-all text-xl font-bold">&times;</button>
+      </div>
+
+      <!-- Quiz Body wrapper (scrollable) -->
+      <div id="modal-quiz-body" class="flex-grow overflow-y-auto space-y-6 pr-2 custom-scrollbar">
+        <!-- Progress Bar -->
+        <div class="space-y-2">
+          <div class="flex justify-between text-xs text-slate-500">
+            <span id="modal-progress-text">Câu hỏi 1 / 20</span>
+            <span id="modal-score-text">Đúng: 0</span>
+          </div>
+          <div class="w-full h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+            <div id="modal-progress-bar" class="h-full bg-blue-600 transition-all duration-300" style="width: 5%"></div>
+          </div>
+        </div>
+
+        <!-- Question text -->
+        <div class="p-5 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-150 dark:border-slate-850">
+          <p id="modal-question-text" class="text-base font-semibold text-slate-800 dark:text-slate-200 leading-relaxed"></p>
+        </div>
+
+        <!-- Options buttons -->
+        <div id="modal-options-container" class="grid grid-cols-1 gap-3"></div>
+
+        <!-- Explanation card (with highlighted formula) -->
+        <div id="modal-explanation-card" class="p-5 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 space-y-2 hidden">
+          <p id="modal-correct-label" class="font-bold text-emerald-600 dark:text-emerald-400 text-sm"></p>
+          <div id="modal-explanation-text" class="text-xs sm:text-sm text-slate-650 dark:text-slate-300 leading-relaxed space-y-3"></div>
+        </div>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="flex justify-end gap-3 pt-4 border-t border-slate-150 dark:border-slate-800">
+        <button id="modal-next-btn" class="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm transition-all hidden">Câu tiếp theo</button>
+        <button id="modal-finish-btn" class="px-5 py-2.5 rounded-xl bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 font-semibold text-sm transition-all hidden">Hoàn thành</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive page logic script -->
   <script is:inline>
+    // Generative 20-question review pool generator per Unit
+    // Highlighted formulas are placed inside standard <span class="px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30">
+    const reviewQuestionsData = {
+      "unit-1": [
+        { q: "The security supervisor _____ the building gates every night at 10 PM.", o: ["is locking", "locks", "locked", "has locked"], a: "locks", e: "Từ chỉ tần suất 'every night' báo hiệu hành động lặp đi lặp lại thường xuyên ở hiện tại. Sử dụng công thức Hiện tại đơn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + V(s/es)</span>. Vì chủ ngữ 'security supervisor' số ít nên chọn 'locks'." },
+        { q: "We _____ our customer database server at the moment.", o: ["are upgrading", "upgrade", "upgraded", "have upgraded"], a: "are upgrading", e: "Cụm từ 'at the moment' (ngay lúc này) báo hiệu hành động đang xảy ra tại thời điểm nói. Sử dụng công thức Hiện tại tiếp diễn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + am/is/are + V-ing</span>." },
+        { q: "The flight to Tokyo _____ from gate 4 at 9:00 AM tomorrow.", o: ["is departing", "departs", "departed", "has departed"], a: "departs", e: "Khi nói về lịch trình cố định của phương tiện giao thông, lịch bay, lịch tàu chạy, ta ưu tiên sử dụng Hiện tại đơn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + V(s/es)</span> diễn đạt tương lai." },
+        { q: "Water _____ at 100 degrees Celsius under standard atmospheric pressure.", o: ["boil", "is boiling", "boils", "boiled"], a: "boils", e: "Đây là một sự thật hiển nhiên hoặc định luật vật lý. Dùng Hiện tại đơn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + V(s/es)</span>." },
+        { q: "The executive team _____ with foreign delegates in the main lobby currently.", o: ["meets", "is meeting", "met", "has met"], a: "is meeting", e: "Từ nhận biết 'currently' báo hiệu hành động đang tiếp diễn ở hiện tại. Sử dụng Hiện tại tiếp diễn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + am/is/are + V-ing</span>." },
+        { q: "Ms. Harrison _____ to Singapore three times a year to inspect the branch.", o: ["is traveling", "travels", "traveled", "has traveled"], a: "travels", e: "Cụm trạng từ chỉ tần suất 'three times a year' chỉ một thói quen, chu kỳ lặp lại. Sử dụng Hiện tại đơn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + V(s/es)</span>." },
+        { q: "Look! The main technicians _____ the server racks in Room 102.", o: ["repair", "are repairing", "repaired", "have repaired"], a: "are repairing", e: "Từ hô cảm 'Look!' yêu cầu người nghe chú ý vào một hành động đang trực tiếp tiếp diễn trước mắt. Dùng Hiện tại tiếp diễn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + am/is/are + V-ing</span>." },
+        { q: "Our corporation regularly _____ fresh agricultural products to European countries.", o: ["is exporting", "exports", "exported", "has exported"], a: "exports", e: "Trạng từ 'regularly' (thường xuyên) thể hiện một chu kỳ lặp lại cố định. Dùng Hiện tại đơn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + V(s/es)</span>." },
+        { q: "She _____ the client's product preferences very well after years of partnership.", o: ["is knowing", "knows", "knowed", "has known"], a: "knows", e: "Động từ trạng thái (Stative verbs) như 'know', 'believe', 'understand' không chia ở dạng tiếp diễn. Dùng Hiện tại đơn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + V(s/es)</span>." },
+        { q: "The new retail branch _____ next Tuesday at 8:00 AM.", o: ["is opening", "opens", "opened", "has opened"], a: "opens", e: "Lịch trình khai trương có thời gian cố định sử dụng tương lai theo lịch trình cố định. Dùng Hiện tại đơn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + V(s/es)</span>." },
+        { q: "The accounting department _____ a comprehensive internal review this week.", o: ["conducts", "is conducting", "conducted", "has conducted"], a: "is conducting", e: "Từ nhận biết 'this week' báo hiệu một công việc tạm thời đang diễn ra trong tuần này. Dùng Hiện tại tiếp diễn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + am/is/are + V-ing</span>." },
+        { q: "The office manager always _____ the storage locker before leaving.", o: ["checks", "is checking", "checked", "has checked"], a: "checks", e: "Trạng từ 'always' thể hiện một thói quen cố định. Sử dụng Hiện tại đơn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + V(s/es)</span>." },
+        { q: "Why _____ you _____ the operating system of your work computer today?", o: ["are/upgrading", "do/upgrade", "did/upgrade", "have/upgraded"], a: "are/upgrading", e: "Từ chỉ thời gian 'today' trong trường hợp này hỏi về hành động tạm thời đang làm trong ngày hôm nay. Dùng Hiện tại tiếp diễn dạng câu hỏi: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>Am/Is/Are + S + V-ing?</span>." },
+        { q: "The training workshop _____ in ten minutes, so please take your seats.", o: ["is starting", "starts", "started", "has started"], a: "starts", e: "Sự kiện được lên lịch trình sẵn trong tương lai gần. Dùng Hiện tại đơn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + V(s/es)</span>." },
+        { q: "Online sales of our products _____ rapidly this current quarter.", o: ["increase", "are increasing", "increased", "have increased"], a: "are increasing", e: "Mô tả một xu hướng biến động tạm thời trong quý này. Dùng Hiện tại tiếp diễn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + am/is/are + V-ing</span>." },
+        { q: "This document folder _____ to the legal department on the third floor.", o: ["is belonging", "belongs", "belonged", "has belonged"], a: "belongs", e: "Động từ 'belong' là động từ trạng thái thể hiện quyền sở hữu, không được dùng dạng tiếp diễn. Dùng Hiện tại đơn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + V(s/es)</span>." },
+        { q: "My direct supervisor _____ the final drafts of the sales agreement.", o: ["is checking", "checks", "checked", "has checked"], a: "is checking", e: "Mô tả hành động đang kiểm tra bản thảo diễn ra ở hiện tại. Chọn Hiện tại tiếp diễn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + am/is/are + V-ing</span>." },
+        { q: "We _____ for an experienced tax accountant temporarily this month.", o: ["look", "are looking", "looked", "have looked"], a: "are looking", e: "Trạng từ 'temporarily' (tạm thời) chỉ một tình huống tạm thời. Dùng Hiện tại tiếp diễn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + am/is/are + V-ing</span>." },
+        { q: "Generally, the store clerk _____ the register at the end of the shift.", o: ["is closing", "closes", "closed", "has closed"], a: "closes", e: "Trạng từ 'Generally' (Thông thường) báo hiệu quy trình lặp đi lặp lại. Dùng Hiện tại đơn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + V(s/es)</span>." },
+        { q: "The client _____ our terms of agreement at the moment.", o: ["questions", "is questioning", "questioned", "has questioned"], a: "is questioning", e: "Từ nhận biết 'at the moment' yêu cầu chia động từ ở Hiện tại tiếp diễn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + am/is/are + V-ing</span>." }
+      ],
+      "unit-2": [
+        { q: "She _____ in the sales department since 2018.", o: ["works", "is working", "has been working", "was working"], a: "has been working", e: "Từ nhận biết 'since 2018' (từ năm 2018 đến nay liên tục) kết hợp nhấn mạnh tính liên tục của hành động yêu cầu Hiện tại hoàn thành tiếp diễn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + have/has + been + V-ing</span>." },
+        { q: "It _____ for three hours and the streets are flooded now.", o: ["rained", "is raining", "has been raining", "was raining"], a: "has been raining", e: "Hành động mưa bắt đầu trong quá khứ kéo dài liên tục 3 tiếng đến hiện tại và để lại hậu quả 'đường bị ngập'. Dùng Hiện tại hoàn thành tiếp diễn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + have/has + been + V-ing</span>." },
+        { q: "They _____ for the manager's final approval all morning.", o: ["wait", "are waiting", "have been waiting", "waited"], a: "have been waiting", e: "Cụm 'all morning' (suốt cả buổi sáng) nhấn mạnh thời gian kéo dài liên tục của hành động chờ đợi. Dùng Hiện tại hoàn thành tiếp diễn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + have/has + been + V-ing</span>." },
+        { q: "How long _____ you _____ English at this learning center?", o: ["do/learn", "are/learning", "have/been learning", "did/learn"], a: "have/been learning", e: "Câu hỏi 'How long' (bao lâu rồi) dùng để hỏi về độ dài thời gian của hành động bắt đầu từ quá khứ đến nay. Dùng Hiện tại hoàn thành tiếp diễn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>Have/Has + S + been + V-ing?</span>." },
+        { q: "The IT technician _____ the server connection issue since 8:00 AM.", o: ["fixes", "is fixing", "has been fixing", "fixed"], a: "has been fixing", e: "Hành động sửa lỗi bắt đầu từ lúc 8h sáng kéo dài liên tục đến nay. Dùng Hiện tại hoàn thành tiếp diễn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + have/has + been + V-ing</span>." },
+        { q: "I _____ for a suitable office space all week without success.", o: ["search", "am searching", "have been searching", "searched"], a: "have been searching", e: "Cụm 'all week' nhấn mạnh tính liên tục cả tuần. Dùng Hiện tại hoàn thành tiếp diễn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + have/has + been + V-ing</span>." },
+        { q: "Our marketing team _____ customer purchasing trends for months.", o: ["analyzes", "is analyzing", "has been analyzing", "analyzed"], a: "has been analyzing", e: "Hành động phân tích kéo dài liên tục trong nhiều tháng qua. Dùng Hiện tại hoàn thành tiếp diễn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + have/has + been + V-ing</span>." },
+        { q: "She is exhausted because she _____ overtime without any breaks.", o: ["works", "is working", "has been working", "worked"], a: "has been working", e: "Hậu quả hiện tại 'exhausted' (kiệt sức) xảy ra do một hành động kéo dài liên tục trước đó. Dùng Hiện tại hoàn thành tiếp diễn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + have/has + been + V-ing</span>." },
+        { q: "We _____ with that creative agency for five years now.", o: ["cooperate", "are cooperating", "have been cooperating", "cooperated"], a: "have been cooperating", e: "Có trạng từ 'for five years now' chỉ độ dài liên tục 5 năm. Dùng Hiện tại hoàn thành tiếp diễn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + have/has + been + V-ing</span>." },
+        { q: "The supplier _____ the delivery of raw materials repeatedly.", o: ["delays", "is delaying", "has been delaying", "delayed"], a: "has been delaying", e: "Hành động trì hoãn lặp đi lặp lại kéo dài từ quá khứ đến nay. Dùng Hiện tại hoàn thành tiếp diễn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + have/has + been + V-ing</span>." },
+        { q: "Why _____ you _____ the monthly team briefings recently?", o: ["do/avoid", "are/avoiding", "have/been avoiding", "did/avoid"], a: "have/been avoiding", e: "Có trạng từ 'recently' (gần đây) chỉ hành động kéo dài liên tục gần đây. Dùng Hiện tại hoàn thành tiếp diễn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>Have/Has + S + been + V-ing?</span>." },
+        { q: "She _____ her presentation slides for the summit all afternoon.", o: ["practices", "is practicing", "has been practicing", "practiced"], a: "has been practicing", e: "Nhấn mạnh quá trình luyện tập diễn ra liên tục suốt buổi chiều. Dùng Hiện tại hoàn thành tiếp diễn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + have/has + been + V-ing</span>." },
+        { q: "The price of steel _____ steadily since the trade policy changed.", o: ["rises", "is rising", "has been rising", "rose"], a: "has been rising", e: "Hành động tăng giá bắt đầu từ thời điểm chính sách thay đổi kéo dài liên tục đến nay. Dùng Hiện tại hoàn thành tiếp diễn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + have/has + been + V-ing</span>." },
+        { q: "I _____ the market for a new supplier since last month.", o: ["research", "am researching", "have been researching", "researched"], a: "have been researching", e: "Bắt đầu nghiên cứu từ tháng trước đến nay chưa dừng lại. Dùng Hiện tại hoàn thành tiếp diễn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + have/has + been + V-ing</span>." },
+        { q: "They _____ this plant for over twelve years.", o: ["operate", "are operating", "have been operating", "operated"], a: "have been operating", e: "Nhấn mạnh quá trình vận hành liên tục suốt 12 năm. Dùng Hiện tại hoàn thành tiếp diễn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + have/has + been + V-ing</span>." },
+        { q: "He _____ emails to clients all morning, which is why his desk is messy.", o: ["sends", "is sending", "has been sending", "sent"], a: "has been sending", e: "Hành động gửi mail kéo dài liên tục cả buổi sáng dẫn đến hậu quả bàn làm việc bừa bộn ở hiện tại. Dùng Hiện tại hoàn thành tiếp diễn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + have/has + been + V-ing</span>." },
+        { q: "The directors _____ the merger possibility since the CEO resigned.", o: ["discuss", "are discussing", "has been discussing", "have been discussing"], a: "have been discussing", e: "Chủ ngữ số nhiều 'directors' đi kèm hành động thảo luận liên tục từ khi CEO từ chức đến nay. Dùng Hiện tại hoàn thành tiếp diễn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + have/has + been + V-ing</span>." },
+        { q: "How long _____ the server _____ without interruption?", o: ["does/run", "is/running", "has/been running", "did/run"], a: "has/been running", e: "Hỏi về khoảng thời gian máy chủ chạy liên tục không ngừng nghỉ từ quá khứ đến nay. Dùng Hiện tại hoàn thành tiếp diễn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>Have/Has + S + been + V-ing?</span>." },
+        { q: "We _____ customer feedback reviews all week.", o: ["read", "are reading", "have been reading", "readed"], a: "have been reading", e: "Có trạng từ 'all week' chỉ hành động đọc đánh giá diễn ra liên tục cả tuần. Dùng Hiện tại hoàn thành tiếp diễn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + have/has + been + V-ing</span>." },
+        { q: "She _____ the project details for several days.", o: ["studies", "is studying", "has been studying", "studied"], a: "has been studying", e: "Nhấn mạnh quá trình nghiên cứu chi tiết kéo dài liên tục vài ngày. Dùng Hiện tại hoàn thành tiếp diễn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + have/has + been + V-ing</span>." }
+      ],
+      "unit-3": [
+        { q: "The general manager _____ the marketing budget yesterday afternoon.", o: ["approves", "is approving", "approved", "has approved"], a: "approved", e: "Có trạng từ chỉ thời gian quá khứ rõ ràng 'yesterday afternoon' (chiều qua). Dùng Quá khứ đơn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + V2/ed</span>." },
+        { q: "They _____ the contract terms when the client suddenly called.", o: ["discuss", "were discussing", "discussed", "had discussed"], a: "were discussing", e: "Một hành động đang diễn ra trong quá khứ (thảo luận hợp đồng - Quá khứ tiếp diễn) thì bị một hành động ngắn khác xen vào (khách hàng gọi - Quá khứ đơn). Công thức: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + was/were + V-ing + when + S + V2/ed</span>." },
+        { q: "While the technician _____ the server, the power went out.", o: ["repairs", "was repairing", "repaired", "has repaired"], a: "was repairing", e: "Liên từ 'While' giới thiệu hành động kéo dài liên tục làm nền trong quá khứ. Dùng Quá khứ tiếp diễn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + was/were + V-ing</span>." },
+        { q: "We _____ the annual business summit in Tokyo last month.", o: ["attend", "are attending", "attended", "have attended"], a: "attended", e: "Có trạng từ chỉ thời gian quá khứ xác định 'last month' (tháng trước). Sử dụng Quá khứ đơn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + V2/ed</span>." },
+        { q: "She _____ the confirmation letter until this morning.", o: ["doesn't receive", "isn't receiving", "didn't receive", "hasn't received"], a: "didn't receive", e: "Cấu trúc phủ định trong quá khứ kết hợp mốc thời gian đã qua. Dùng Quá khứ đơn thể phủ định: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + didn't + V1</span>." },
+        { q: "What _____ you _____ at 10:00 AM yesterday when the fire alarm rang?", o: ["do/do", "are/doing", "were/doing", "did/do"], a: "were/doing", e: "Hỏi về hành động đang diễn ra tại một thời điểm xác định cụ thể trong quá khứ ('at 10:00 AM yesterday'). Dùng Quá khứ tiếp diễn dạng câu hỏi: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>Was/Were + S + V-ing?</span>." },
+        { q: "He _____ from college in 2019 and joined the firm immediately.", o: ["graduates", "is graduating", "graduated", "has graduated"], a: "graduated", e: "Có mốc thời gian quá khứ xác định 'in 2019'. Dùng Quá khứ đơn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + V2/ed</span>." },
+        { q: "The designer _____ a new layout while the content writer drafted paragraphs.", o: ["creates", "was creating", "created", "has created"], a: "was creating", e: "Diễn tả hai hành động song song cùng xảy ra trong quá khứ dưới sự liên kết của liên từ 'while'. Chọn Quá khứ tiếp diễn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + was/were + V-ing</span>." },
+        { q: "They _____ the project on time despite the severe resource shortage.", o: ["complete", "are completing", "completed", "have completed"], a: "completed", e: "Hành động đã hoàn thành xong trong quá khứ. Dùng Quá khứ đơn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + V2/ed</span>." },
+        { q: "She _____ to work when her car suddenly got a flat tire.", o: ["drives", "was driving", "driven", "has driven"], a: "was driving", e: "Hành động đang diễn ra (lái xe đi làm) thì bị xen vào bởi sự cố thủng lốp. Chọn Quá khứ tiếp diễn cho hành động kéo dài: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + was/were + V-ing</span>." },
+        { q: "We _____ about the schedule change beforehand.", o: ["don't know", "aren't knowing", "didn't know", "haven't known"], a: "didn't know", e: "Sự việc phủ định đã xảy ra và kết thúc hoàn toàn trong quá khứ. Dùng Quá khứ đơn phủ định: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + didn't + V1</span>." },
+        { q: "The marketing team _____ the campaign details all afternoon yesterday.", o: ["discusses", "was discussing", "were discussing", "discussed"], a: "were discussing", e: "Trạng từ 'all afternoon yesterday' chỉ một khoảng thời gian liên tục xác định trong quá khứ. Đội marketing (số nhiều) yêu cầu Quá khứ tiếp diễn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + was/were + V-ing</span>." },
+        { q: "He checked his inbox, _____ the invoice, and left the office room.", o: ["prints", "printed", "was printing", "has printed"], a: "printed", e: "Liệt kê chuỗi các hành động liên tiếp xảy ra trong quá khứ. Dùng Quá khứ đơn cho tất cả động từ: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + V2/ed</span>." },
+        { q: "While she _____ the slide deck, the project projector suddenly broke down.", o: ["presents", "was presenting", "presented", "has presented"], a: "was presenting", e: "Hành động làm nền đang diễn ra liên tục (thuyết trình slide - Quá khứ tiếp diễn) thì bị máy chiếu hỏng xen ngang. Dùng: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + was/were + V-ing</span>." },
+        { q: "The guard _____ the corridor when he noticed the open emergency exit.", o: ["patrols", "was patrolling", "patrolled", "has patrolled"], a: "was patrolling", e: "Bảo vệ đang tuần tra (hành động đang diễn ra) thì phát hiện cửa mở (hành động xen vào). Dùng Quá khứ tiếp diễn cho hành động nền: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + was/were + V-ing</span>." },
+        { q: "They _____ the partnership agreement after two hours of negotiation.", o: ["sign", "are signing", "signed", "have signed"], a: "signed", e: "Hành động ký kết đã diễn ra và kết thúc trong quá khứ. Dùng Quá khứ đơn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + V2/ed</span>." },
+        { q: "Did you _____ to the logistics team about the damaged items?", o: ["speak", "spoke", "speaking", "spoken"], a: "speak", e: "Cấu trúc câu nghi vấn của Quá khứ đơn mượn trợ động từ 'Did' thì động từ chính trả về nguyên mẫu (V1). Công thức: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>Did + S + V1?</span>." },
+        { q: "At this exact time last year, we _____ our new product line.", o: ["launch", "were launching", "launched", "had launched"], a: "were launching", e: "Cụm thời gian 'At this exact time last year' (vào giờ này năm ngoái) chỉ thời điểm chính xác trong quá khứ. Dùng Quá khứ tiếp diễn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + was/were + V-ing</span>." },
+        { q: "He _____ the office key inside his coat drawer.", o: ["finds", "found", "was finding", "has found"], a: "found", e: "Sự việc tìm thấy chìa khóa đã xảy ra trong quá khứ. Dùng Quá khứ đơn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + V2/ed</span>." },
+        { q: "The server room _____ functional throughout the audit yesterday.", o: ["is", "was", "were", "been"], a: "was", e: "Mô tả trạng thái của phòng máy chủ (danh từ số ít) trong ngày hôm qua. Dùng tobe Quá khứ đơn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + was/were</span>." }
+      ],
+      "unit-4": [
+        { q: "By the time the client arrived, the team _____ the meeting room.", o: ["prepared", "had prepared", "was preparing", "has prepared"], a: "had prepared", e: "Liên từ 'By the time' đi kèm mệnh đề Quá khứ đơn (arrived) thì mệnh đề chính phải chia Quá khứ hoàn thành để chỉ hành động xảy ra trước đó. Công thức: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>By the time + S + V2/ed, S + had + V3/ed</span>." },
+        { q: "They _____ for hours before they finally reached a consensus.", o: ["negotiated", "had been negotiating", "were negotiating", "have negotiated"], a: "had been negotiating", e: "Hành động đàm phán xảy ra liên tục kéo dài trước một mốc thời gian quá khứ khác ('reached a consensus'). Sử dụng Quá khứ hoàn thành tiếp diễn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + had + been + V-ing</span>." },
+        { q: "She _____ the office when the courier brought the urgent documents.", o: ["already left", "had already left", "was already leaving", "has already left"], a: "had already left", e: "Hành động rời văn phòng xảy ra trước khi tài liệu được mang đến. Dùng Quá khứ hoàn thành: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + had + already + V3/ed</span>." },
+        { q: "He _____ for ten hours before the company server room shut down.", o: ["worked", "had been working", "was working", "has been working"], a: "had been working", e: "Nhấn mạnh khoảng thời gian làm việc liên tục 10 tiếng trước một mốc sự việc quá khứ. Dùng Quá khứ hoàn thành tiếp diễn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + had + been + V-ing</span>." },
+        { q: "After they _____ the deal, they celebrated the successful partnership.", o: ["signed", "had signed", "were signing", "have signed"], a: "had signed", e: "Hành động ký kết xảy ra trước, hành động ăn mừng xảy ra sau. 'After' giới thiệu mệnh đề xảy ra trước. Dùng Quá khứ hoàn thành: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>After + S + had + V3/ed, S + V2/ed</span>." },
+        { q: "We _____ the slides before the marketing director called the meeting.", o: ["didn't finish", "hadn't finished", "haven't finished", "weren't finishing"], a: "hadn't finished", e: "Hành động chưa hoàn thành slides xảy ra trước mốc thời gian giám đốc gọi họp. Dùng Quá khứ hoàn thành dạng phủ định: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + hadn't + V3/ed</span>." },
+        { q: "The system crashed because the team _____ enough testing beforehand.", o: ["didn't run", "had not run", "has not run", "was not running"], a: "had not run", e: "Hành động không chạy thử nghiệm xảy ra trước khi hệ thống bị sập. Dùng Quá khứ hoàn thành: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + had + not + V3/ed</span>." },
+        { q: "By last Friday, she _____ all the required safety certifications.", o: ["submitted", "had submitted", "was submitting", "has submitted"], a: "had submitted", e: "Cụm thời gian 'By + mốc thời gian quá khứ' (trước thứ Sáu tuần trước) yêu cầu dùng Quá khứ hoàn thành: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + had + V3/ed</span>." },
+        { q: "The programmer _____ code since morning before he finally took a break.", o: ["typed", "had been typing", "was typing", "has been typing"], a: "had been typing", e: "Nhấn mạnh quá trình gõ code liên tục bắt đầu từ sáng cho đến trước khi anh ấy nghỉ ngơi. Dùng Quá khứ hoàn thành tiếp diễn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + had + been + V-ing</span>." },
+        { q: "They _____ on the venue before I could make any alternative suggestions.", o: ["already decided", "had already decided", "were already deciding", "have already decided"], a: "had already decided", e: "Quyết định địa điểm họp xảy ra trước khi tôi đưa ra gợi ý. Dùng Quá khứ hoàn thành: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + had + already + V3/ed</span>." },
+        { q: "_____ you _____ the regional director before the annual summit took place?", o: ["Did/meet", "Had/met", "Were/meeting", "Have/met"], a: "Had/met", e: "Hỏi về trải nghiệm đã xảy ra hay chưa trước một mốc thời gian quá khứ. Dùng Quá khứ hoàn thành thể nghi vấn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>Had + S + V3/ed?</span>." },
+        { q: "He was promoted because he _____ all of his quarterly sales targets.", o: ["achieved", "had achieved", "has achieved", "was achieving"], a: "had achieved", e: "Hành động đạt mục tiêu doanh số xảy ra trước, thăng chức xảy ra sau. Dùng Quá khứ hoàn thành: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + had + V3/ed</span>." },
+        { q: "The market researchers _____ consumer trends for years before publishing findings.", o: ["researched", "had been researching", "were researching", "have been researching"], a: "had been researching", e: "Hành động nghiên cứu liên tục kéo dài nhiều năm trước khi công bố. Dùng Quá khứ hoàn thành tiếp diễn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + had + been + V-ing</span>." },
+        { q: "By the time the training class ended, the trainees _____ the core concepts.", o: ["mastered", "had mastered", "were mastering", "have mastered"], a: "had mastered", e: "Cấu trúc 'By the time + S + V2/ed, S + had + V3/ed'. Chọn Quá khứ hoàn thành: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>had mastered</span>." },
+        { q: "We _____ a shipping delay, so we had prepared a backup courier.", o: ["expected", "had expected", "were expecting", "have expected"], a: "had expected", e: "Kỳ vọng sự chậm trễ xảy ra trước khi chuẩn bị kế hoạch dự phòng. Dùng Quá khứ hoàn thành: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + had + V3/ed</span>." },
+        { q: "The firm _____ money for months before the new director took office.", o: ["lost", "had been losing", "was losing", "has been losing"], a: "had been losing", e: "Hành động thua lỗ kéo dài liên tục hàng tháng trước mốc giám đốc nhậm chức. Dùng Quá khứ hoàn thành tiếp diễn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + had + been + V-ing</span>." },
+        { q: "She _____ the report on time, so she received a warning yesterday.", o: ["didn't submit", "had not submitted", "has not submitted", "was not submitting"], a: "had not submitted", e: "Hành động không nộp báo cáo xảy ra trước thời điểm nhận cảnh cáo ngày hôm qua. Dùng Quá khứ hoàn thành: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + had + not + V3/ed</span>." },
+        { q: "They _____ for the cargo flight for two weeks when it finally arrived.", o: ["waited", "had been waiting", "were waiting", "have been waiting"], a: "had been waiting", e: "Hành động chờ đợi hàng kéo dài liên tục 2 tuần trước khi nó đến. Dùng Quá khứ hoàn thành tiếp diễn: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + had + been + V-ing</span>." },
+        { q: "He suddenly realized he _____ the presentation flash drive at home.", o: ["forgot", "had forgotten", "was forgetting", "has forgotten"], a: "had forgotten", e: "Hành động để quên flash drive xảy ra trước thời điểm nhận ra. Dùng Quá khứ hoàn thành: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + had + V3/ed</span>." },
+        { q: "By 2020, our brand _____ three regional offices in Europe.", o: ["established", "had established", "was establishing", "has established"], a: "had established", e: "Trước mốc thời gian quá khứ 'By 2020', dùng Quá khứ hoàn thành: <span class='px-1.5 py-0.5 rounded font-mono font-bold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800/30'>S + had + V3/ed</span>." }
+      ]
+    };
+
     const navButtons = document.querySelectorAll('.unit-nav-btn');
     const contentSections = document.querySelectorAll('.unit-content-section');
 
     function selectUnit(unitId) {
-      // Hide all sections
       contentSections.forEach(section => {
         section.classList.add('hidden');
       });
 
-      // Show targeted section
       const targetSection = document.getElementById(`content-${unitId}`);
       if (targetSection) {
         targetSection.classList.remove('hidden');
       }
 
-      // Highlight active nav button
       navButtons.forEach(btn => {
         if (btn.getAttribute('data-target') === unitId) {
           btn.classList.remove('text-slate-700', 'dark:text-slate-300', 'hover:bg-slate-100', 'dark:hover:bg-slate-800');
@@ -458,7 +616,6 @@ const sentenceData = {
         }
       });
 
-      // Save preference to localStorage
       localStorage.setItem('selected-review-unit', unitId);
     }
 
@@ -469,9 +626,117 @@ const sentenceData = {
       });
     });
 
-    // Restore or default to unit-1
     const storedUnit = localStorage.getItem('selected-review-unit') || 'unit-1';
     selectUnit(storedUnit);
+
+    // Modal Quiz Logic
+    const quizModal = document.getElementById('quiz-modal');
+    const closeModalBtn = document.getElementById('close-modal-btn');
+    const startQuizBtns = document.querySelectorAll('.start-review-quiz-btn');
+    
+    const modalQuizTitle = document.getElementById('modal-quiz-title');
+    const modalProgressText = document.getElementById('modal-progress-text');
+    const modalScoreText = document.getElementById('modal-score-text');
+    const modalProgressBar = document.getElementById('modal-progress-bar');
+    const modalQuestionText = document.getElementById('modal-question-text');
+    const modalOptionsContainer = document.getElementById('modal-options-container');
+    const modalExplanationCard = document.getElementById('modal-explanation-card');
+    const modalCorrectLabel = document.getElementById('modal-correct-label');
+    const modalExplanationText = document.getElementById('modal-explanation-text');
+    const modalNextBtn = document.getElementById('modal-next-btn');
+    const modalFinishBtn = document.getElementById('modal-finish-btn');
+
+    let activeQuizQuestions = [];
+    let currentQuizIndex = 0;
+    let currentQuizScore = 0;
+
+    function openQuiz(unitId, unitTitle) {
+      const questions = reviewQuestionsData[unitId];
+      if (!questions || questions.length === 0) {
+        alert("Hiện tại chưa có bộ câu hỏi ôn tập đầy đủ cho bài học này. Vui lòng thử lại sau!");
+        return;
+      }
+      
+      activeQuizQuestions = questions;
+      currentQuizIndex = 0;
+      currentQuizScore = 0;
+      modalQuizTitle.textContent = `Ôn tập: ${unitTitle}`;
+      
+      quizModal.classList.remove('hidden');
+      renderQuizQuestion();
+    }
+
+    function renderQuizQuestion() {
+      modalExplanationCard.classList.add('hidden');
+      modalNextBtn.classList.add('hidden');
+      modalFinishBtn.classList.add('hidden');
+
+      const total = activeQuizQuestions.length;
+      modalProgressText.textContent = `Câu hỏi ${currentQuizIndex + 1} / ${total}`;
+      modalScoreText.textContent = `Đúng: ${currentQuizScore}`;
+      modalProgressBar.style.width = `${((currentQuizIndex) / total) * 100}%`;
+
+      const q = activeQuizQuestions[currentQuizIndex];
+      modalQuestionText.textContent = q.q;
+
+      modalOptionsContainer.innerHTML = '';
+      q.o.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = "w-full text-left p-3 text-xs sm:text-sm rounded-xl border border-slate-200 dark:border-slate-800 hover:border-blue-500 hover:bg-blue-50/10 transition-all font-sans";
+        btn.textContent = opt;
+        btn.addEventListener('click', () => handleQuizSelection(btn, opt, q));
+        modalOptionsContainer.appendChild(btn);
+      });
+    }
+
+    function handleQuizSelection(selectedBtn, selectedOption, q) {
+      const buttons = modalOptionsContainer.querySelectorAll('button');
+      buttons.forEach(btn => {
+        btn.disabled = true;
+        if (btn.textContent === q.a) {
+          btn.className = "w-full text-left p-3 text-xs sm:text-sm rounded-xl border border-emerald-500 bg-emerald-50 text-emerald-800 dark:bg-emerald-950/20 dark:border-emerald-800 dark:text-emerald-300 font-semibold";
+        }
+      });
+
+      if (selectedOption === q.a) {
+        currentQuizScore++;
+        selectedBtn.className = "w-full text-left p-3 text-xs sm:text-sm rounded-xl border border-emerald-500 bg-emerald-50 text-emerald-800 dark:bg-emerald-950/20 dark:border-emerald-800 dark:text-emerald-300 font-semibold";
+      } else {
+        selectedBtn.className = "w-full text-left p-3 text-xs sm:text-sm rounded-xl border border-red-500 bg-red-50 text-red-800 dark:bg-red-950/20 dark:border-red-800 dark:text-red-300 font-semibold";
+      }
+
+      modalCorrectLabel.textContent = `Đáp án đúng: ${q.a}`;
+      modalExplanationText.innerHTML = q.e;
+      modalExplanationCard.classList.remove('hidden');
+
+      if (currentQuizIndex < activeQuizQuestions.length - 1) {
+        modalNextBtn.classList.remove('hidden');
+      } else {
+        modalFinishBtn.classList.remove('hidden');
+      }
+    }
+
+    startQuizBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const unitId = btn.getAttribute('data-unit');
+        const unitTitle = btn.getAttribute('data-title');
+        openQuiz(unitId, unitTitle);
+      });
+    });
+
+    closeModalBtn.addEventListener('click', () => {
+      quizModal.classList.add('hidden');
+    });
+
+    modalNextBtn.addEventListener('click', () => {
+      currentQuizIndex++;
+      renderQuizQuestion();
+    });
+
+    modalFinishBtn.addEventListener('click', () => {
+      alert(`Chúc mừng bạn đã hoàn thành bài ôn tập! Kết quả: ${currentQuizScore} / ${activeQuizQuestions.length} câu đúng.`);
+      quizModal.classList.add('hidden');
+    });
   </script>
 
   <style>

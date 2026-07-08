@@ -18,7 +18,7 @@ grammarLessons.forEach(lesson => {
         answer: q.answer,
         explanation: q.explanation,
         sourceTitle: lesson.data.title,
-        sourceUrl: `/grammar/${lesson.id.replace(/\.mdx?$/, '')}`
+        sourceUrl: `${import.meta.env.BASE_URL}grammar/${lesson.id.replace(/\.mdx?$/, '')}`
       });
     });
   }
@@ -34,7 +34,7 @@ listeningLessons.forEach(lesson => {
         answer: q.answer,
         explanation: q.explanation,
         sourceTitle: lesson.data.title,
-        sourceUrl: `/listening/${lesson.id.replace(/\.mdx?$/, '')}`
+        sourceUrl: `${import.meta.env.BASE_URL}listening/${lesson.id.replace(/\.mdx?$/, '')}`
       });
     });
   }
@@ -45,7 +45,7 @@ listeningLessons.forEach(lesson => {
   <div class="mb-8 flex flex-col sm:flex-row justify-between sm:items-center gap-4">
     <div>
       <nav class="flex text-sm text-slate-500 mb-4" aria-label="Breadcrumb">
-        <a href="/" class="hover:text-blue-600">Trang chủ</a>
+        <a href={import.meta.env.BASE_URL} class="hover:text-blue-600">Trang chủ</a>
         <span class="mx-2">/</span>
         <span class="text-slate-900 dark:text-slate-300 font-medium">Luyện đề ngẫu nhiên</span>
       </nav>
@@ -116,7 +116,7 @@ listeningLessons.forEach(lesson => {
       <button id="retry-btn" class="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm transition-all">
         Làm đề mới
       </button>
-      <a href="/error-notebook" class="px-5 py-2.5 rounded-xl bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-medium text-sm transition-all">
+      <a href={`${import.meta.env.BASE_URL}error-notebook`} class="px-5 py-2.5 rounded-xl bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-medium text-sm transition-all">
         Sổ tay sửa lỗi
       </a>
     </div>

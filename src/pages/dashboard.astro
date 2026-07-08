@@ -46,7 +46,7 @@ import Layout from '../layouts/Layout.astro';
     <div class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-4">
       <h2 class="text-xl font-outfit font-bold">Lối tắt học tập</h2>
       <div class="grid grid-cols-1 gap-3">
-        <a href="/grammar" class="flex items-center justify-between p-4 rounded-xl border border-slate-200 dark:border-slate-805 hover:bg-slate-50 dark:hover:bg-slate-950 transition-all">
+        <a href={`${import.meta.env.BASE_URL}grammar`} class="flex items-center justify-between p-4 rounded-xl border border-slate-200 dark:border-slate-805 hover:bg-slate-50 dark:hover:bg-slate-950 transition-all">
           <div class="flex items-center gap-3">
             <span class="text-lg">📘</span>
             <div>
@@ -57,7 +57,7 @@ import Layout from '../layouts/Layout.astro';
           <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
         </a>
 
-        <a href="/listening" class="flex items-center justify-between p-4 rounded-xl border border-slate-200 dark:border-slate-805 hover:bg-slate-50 dark:hover:bg-slate-950 transition-all">
+        <a href={`${import.meta.env.BASE_URL}listening`} class="flex items-center justify-between p-4 rounded-xl border border-slate-200 dark:border-slate-805 hover:bg-slate-50 dark:hover:bg-slate-950 transition-all">
           <div class="flex items-center gap-3">
             <span class="text-lg">🎧</span>
             <div>
@@ -68,7 +68,7 @@ import Layout from '../layouts/Layout.astro';
           <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
         </a>
 
-        <a href="/practice" class="flex items-center justify-between p-4 rounded-xl border border-slate-200 dark:border-slate-805 hover:bg-slate-50 dark:hover:bg-slate-950 transition-all">
+        <a href={`${import.meta.env.BASE_URL}practice`} class="flex items-center justify-between p-4 rounded-xl border border-slate-200 dark:border-slate-805 hover:bg-slate-50 dark:hover:bg-slate-950 transition-all">
           <div class="flex items-center gap-3">
             <span class="text-lg">⚡️</span>
             <div>
@@ -90,7 +90,7 @@ import Layout from '../layouts/Layout.astro';
       </div>
 
       <div class="mt-6">
-        <a href="/error-notebook" class="block text-center w-full py-3 rounded-xl bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 text-sm font-semibold transition-all">
+        <a href={`${import.meta.env.BASE_URL}error-notebook`} class="block text-center w-full py-3 rounded-xl bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 text-sm font-semibold transition-all">
           Mở Sổ Tay Sửa Lỗi
         </a>
       </div>

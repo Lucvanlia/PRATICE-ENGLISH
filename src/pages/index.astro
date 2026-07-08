@@ -13,10 +13,10 @@ import Layout from '../layouts/Layout.astro';
       Hệ thống học tập thông minh hoàn toàn miễn phí, tích hợp phương pháp Spaced Repetition (lặp lại ngắt quãng), thẻ từ ghi nhớ (flashcard) và ngân hàng câu hỏi thực chiến sát đề thi thật.
     </p>
     <div class="flex flex-wrap justify-center gap-4">
-      <a href="/grammar" class="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-medium shadow-lg hover:shadow-blue-500/20 transition-all">
+      <a href={`${import.meta.env.BASE_URL}grammar`} class="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-medium shadow-lg hover:shadow-blue-500/20 transition-all">
         Học Ngữ Pháp
       </a>
-      <a href="/listening" class="px-6 py-3 rounded-xl bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-medium transition-all">
+      <a href={`${import.meta.env.BASE_URL}listening`} class="px-6 py-3 rounded-xl bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-medium transition-all">
         Luyện Nghe
       </a>
     </div>

@@ -1,0 +1,492 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const grammarLessons = await getCollection('grammar');
+
+// 20 rich sample sentences per grammar unit
+const sentenceData = {
+  "unit-1": [
+    { eng: "The marketing director attends the weekly sales meeting every Monday.", vie: "Giám đốc tiếp thị tham dự cuộc họp bán hàng hàng tuần vào mỗi thứ Hai." },
+    { eng: "We are currently upgrading our customer relationship management software.", vie: "Chúng tôi hiện đang nâng cấp phần mềm quản lý quan hệ khách hàng." },
+    { eng: "The new flight to Singapore departs at 9:00 AM sharp tomorrow.", vie: "Chuyến bay mới đi Singapore khởi hành lúc đúng 9 giờ sáng mai." },
+    { eng: "Water boils at 100 degrees Celsius under normal pressure.", vie: "Nước sôi ở 100 độ C dưới áp suất bình thường." },
+    { eng: "The CEO is meeting with the foreign delegates right now.", vie: "Giám đốc điều hành đang họp với các đại biểu nước ngoài ngay lúc này." },
+    { eng: "Mr. Harrison travels to Tokyo three times a year for audits.", vie: "Ông Harrison đi công tác Tokyo ba lần một năm để kiểm toán." },
+    { eng: "Look! The technicians are repairing the main server room.", vie: "Nhìn kìa! Các kỹ thuật viên đang sửa phòng máy chủ chính." },
+    { eng: "Our company regularly exports agricultural products to Europe.", vie: "Công ty chúng tôi thường xuyên xuất khẩu nông sản sang châu Âu." },
+    { eng: "We are looking for an experienced accountant temporarily this month.", vie: "Chúng tôi đang tìm một kế toán viên có kinh nghiệm tạm thời trong tháng này." },
+    { eng: "She knows the client's product preferences very well.", vie: "Cô ấy biết rất rõ sở thích sản phẩm của khách hàng." },
+    { eng: "The new branch office opens next Tuesday according to the plan.", vie: "Văn phòng chi nhánh mới mở cửa vào thứ Ba tuần tới theo kế hoạch." },
+    { eng: "They are currently conducting a survey on customer satisfaction.", vie: "Họ hiện đang tiến hành một cuộc khảo sát về mức độ hài lòng của khách hàng." },
+    { eng: "The store manager always checks the inventory before closing.", vie: "Quản lý cửa hàng luôn kiểm tra hàng tồn kho trước khi đóng cửa." },
+    { eng: "Are you working on the design proposal at the moment?", vie: "Bạn có đang làm việc với đề xuất thiết kế vào lúc này không?" },
+    { eng: "He does not believe that the project will be finished on time.", vie: "Anh ấy không tin rằng dự án sẽ được hoàn thành đúng hạn." },
+    { eng: "Why are you upgrading the operating system today?", vie: "Tại sao hôm nay bạn lại nâng cấp hệ thống điều hành?" },
+    { eng: "The seminar starts in ten minutes; please take your seats.", vie: "Hội thảo bắt đầu sau mười phút nữa; xin vui lòng ổn định chỗ ngồi." },
+    { eng: "Online sales are increasing rapidly this quarter.", vie: "Doanh số bán hàng trực tuyến đang tăng nhanh chóng trong quý này." },
+    { eng: "She belongs to the human resources department.", vie: "Cô ấy thuộc bộ phận nhân sự." },
+    { eng: "My supervisor is checking the final drafts of the contract.", vie: "Người giám sát của tôi đang kiểm tra các bản thảo cuối cùng của hợp đồng." }
+  ],
+  "unit-2": [
+    { eng: "It has been raining for three hours and the streets are flooded.", vie: "Trời đã mưa suốt ba tiếng đồng hồ và đường phố bị ngập lụt." },
+    { eng: "She has been working in the sales department since 2018.", vie: "Cô ấy đã làm việc ở bộ phận bán hàng liên tục kể từ năm 2018." },
+    { eng: "We have been developing this software project for six months.", vie: "Chúng tôi đã và đang phát triển dự án phần mềm này suốt sáu tháng qua." },
+    { eng: "They have been waiting for the manager's approval all morning.", vie: "Họ đã chờ đợi sự chấp thuận của người quản lý suốt cả buổi sáng." },
+    { eng: "How long have you been learning English at this center?", vie: "Bạn đã học tiếng Anh tại trung tâm này được bao lâu rồi?" },
+    { eng: "The technician has been troubleshooting the server connection since 8 AM.", vie: "Kỹ thuật viên đã khắc phục sự cố kết nối máy chủ liên tục từ 8 giờ sáng." },
+    { eng: "I have been searching for a new office space all week.", vie: "Tôi đã tìm kiếm một không gian văn phòng mới suốt cả tuần nay." },
+    { eng: "The company has been expanding its operations in Asia recently.", vie: "Công ty đã và đang mở rộng hoạt động tại châu Á gần đây." },
+    { eng: "She has been preparing the financial report for two days.", vie: "Cô ấy đã chuẩn bị báo cáo tài chính liên tục trong hai ngày qua." },
+    { eng: "He is tired because he has been working overtime without break.", vie: "Anh ấy mệt vì đã làm việc tăng ca liên tục không nghỉ ngơi." },
+    { eng: "Have you been waiting for the shuttle bus for a long time?", vie: "Bạn đã đợi xe buýt đưa đón trong một thời gian dài phải không?" },
+    { eng: "Our marketing team has been analyzing consumer trends all day.", vie: "Đội ngũ tiếp thị của chúng tôi đã phân tích xu hướng người dùng cả ngày." },
+    { eng: "I haven't been sleeping well lately due to work pressure.", vie: "Gần đây tôi không ngủ ngon giấc do áp lực công việc." },
+    { eng: "The children have been playing in the yard since the rain stopped.", vie: "Lũ trẻ đã chơi ngoài sân từ khi cơn mưa tạnh." },
+    { eng: "He has been directing the research team for over ten years.", vie: "Ông ấy đã chỉ đạo đội ngũ nghiên cứu trong hơn mười năm qua." },
+    { eng: "The supplier has been delaying the delivery of goods repeatedly.", vie: "Nhà cung cấp đã liên tục trì hoãn việc giao hàng nhiều lần." },
+    { eng: "Why have you been avoiding the team meetings recently?", vie: "Tại sao gần đây bạn lại liên tục tránh các cuộc họp đội nhóm?" },
+    { eng: "She has been practicing her presentation for the conference.", vie: "Cô ấy đã tập luyện bài thuyết trình của mình cho hội nghị." },
+    { eng: "The price of petrol has been rising steadily for months.", vie: "Giá xăng đã và đang tăng đều đặn trong nhiều tháng qua." },
+    { eng: "We have been cooperating with that agency for five years.", vie: "Chúng tôi đã hợp tác với đại lý đó được năm năm rồi." }
+  ],
+  "unit-3": [
+    { eng: "The manager approved the marketing budget yesterday afternoon.", vie: "Quản lý đã phê duyệt ngân sách tiếp thị vào chiều ngày hôm qua." },
+    { eng: "They were reviewing the contract terms when the client called.", vie: "Họ đang xem xét các điều khoản hợp đồng thì khách hàng gọi đến." },
+    { eng: "While the technician was fixing the server, the power went out.", vie: "Trong khi kỹ thuật viên đang sửa máy chủ, điện bị cúp." },
+    { eng: "I was writing the email when my laptop suddenly shut down.", vie: "Tôi đang viết email thì máy tính xách tay đột ngột tắt nguồn." },
+    { eng: "We attended the annual business summit in Tokyo last month.", vie: "Chúng tôi đã tham dự hội nghị thượng đỉnh kinh doanh thường niên tại Tokyo tháng trước." },
+    { eng: "She didn't receive the confirmation letter until this morning.", vie: "Cô ấy đã không nhận được thư xác nhận cho đến tận sáng nay." },
+    { eng: "What were you doing at 10:00 AM yesterday when the fire alarm rang?", vie: "Bạn đang làm gì lúc 10 giờ sáng qua khi chuông báo cháy reo?" },
+    { eng: "He graduated from college in 2019 and joined the firm immediately.", vie: "Anh ấy tốt nghiệp đại học năm 2019 và gia nhập công ty ngay lập tức." },
+    { eng: "The designer was creating a new logo while the writer drafted content.", vie: "Nhà thiết kế đang tạo logo mới trong khi người viết soạn thảo nội dung." },
+    { eng: "They completed the project on time despite the resource shortage.", vie: "Họ đã hoàn thành dự án đúng hạn bất chấp sự thiếu hụt nguồn lực." },
+    { eng: "She was driving to work when she got a flat tire.", vie: "Cô ấy đang lái xe đi làm thì bị thủng lốp xe." },
+    { eng: "We didn't know about the schedule change beforehand.", vie: "Chúng tôi đã không biết trước về sự thay đổi lịch trình." },
+    { eng: "The marketing team was discussing the campaign all afternoon yesterday.", vie: "Đội tiếp thị đã thảo luận về chiến dịch suốt cả chiều ngày hôm qua." },
+    { eng: "He joined the teleconference after he arrived at the hotel room.", vie: "Anh ấy đã tham gia cuộc họp qua điện thoại sau khi đến phòng khách sạn." },
+    { eng: "While she was presenting the slide, the projector broke down.", vie: "Trong khi cô ấy đang trình bày slide, máy chiếu bị hỏng." },
+    { eng: "Did you talk to the supplier about the damaged shipment?", vie: "Bạn có nói chuyện với nhà cung cấp về lô hàng bị hỏng không?" },
+    { eng: "At this time last year, we were launching our first mobile app.", vie: "Vào thời điểm này năm ngoái, chúng tôi đang ra mắt ứng dụng di động đầu tiên." },
+    { eng: "He checked his email, printed the invoice, and left the office.", vie: "Anh ấy kiểm tra email, in hóa đơn và rời văn phòng." },
+    { eng: "The security guard was patrolling when he noticed the open door.", vie: "Nhân viên bảo vệ đang tuần tra thì phát hiện ra cửa mở." },
+    { eng: "They signed the agreement after two hours of intense negotiation.", vie: "Họ đã ký thỏa thuận sau hai giờ đàm phán căng thẳng." }
+  ],
+  "unit-4": [
+    { eng: "By the time the client arrived, the team had prepared the room.", vie: "Vào lúc khách hàng đến, cả đội đã chuẩn bị xong phòng họp." },
+    { eng: "They had been negotiating for hours before they reached a consensus.", vie: "Họ đã đàm phán liên tục hàng giờ trước khi đạt được sự đồng thuận." },
+    { eng: "She had already left the office when the courier brought the document.", vie: "Cô ấy đã rời văn phòng trước khi nhân viên chuyển phát mang tài liệu đến." },
+    { eng: "He had been working for ten hours before the server went down.", vie: "Anh ấy đã làm việc liên tục mười tiếng đồng hồ trước khi máy chủ bị sập." },
+    { eng: "After they had signed the contract, they celebrated the partnership.", vie: "Sau khi họ đã ký hợp đồng, họ đã tổ chức ăn mừng sự hợp tác." },
+    { eng: "We hadn't finished the slides before the director called the meeting.", vie: "Chúng tôi đã chưa hoàn thành các slide trước khi giám đốc gọi họp." },
+    { eng: "The system crashed because the team had not run enough tests.", vie: "Hệ thống bị sập vì đội ngũ đã không chạy thử nghiệm đủ số lần." },
+    { eng: "By last Friday, she had submitted all the required certificates.", vie: "Trước thứ Sáu tuần trước, cô ấy đã nộp tất cả các chứng chỉ yêu cầu." },
+    { eng: "The programmer had been typing code since morning before he took a break.", vie: "Lập trình viên đã gõ mã liên tục từ sáng trước khi nghỉ ngơi." },
+    { eng: "They had already decided on the venue before I made suggestions.", vie: "Họ đã quyết định địa điểm họp trước khi tôi đưa ra các gợi ý." },
+    { eng: "Had you ever met the regional director before the conference?", vie: "Bạn đã từng gặp giám đốc khu vực trước hội nghị đó chưa?" },
+    { eng: "He was promoted because he had achieved all sales targets.", vie: "Anh ấy được thăng chức vì đã đạt được tất cả mục tiêu doanh số." },
+    { eng: "The team had been researching the market trends for years.", vie: "Đội ngũ đã nghiên cứu các xu hướng thị trường liên tục trong nhiều năm." },
+    { eng: "By the time the training ended, participants had learned the basics.", vie: "Vào lúc khóa đào tạo kết thúc, học viên đã học xong những điều cơ bản." },
+    { eng: "We had expected a delay, so we prepared a backup plan.", vie: "Chúng tôi đã dự kiến trước sự chậm trễ, nên đã chuẩn bị kế hoạch dự phòng." },
+    { eng: "The company had been losing money before the new management arrived.", vie: "Công ty đã liên tục thua lỗ trước khi ban quản lý mới đến." },
+    { eng: "She had not completed the report, so she worked late last night.", vie: "Cô ấy đã chưa hoàn thành báo cáo, vì vậy tối qua cô ấy đã làm việc muộn." },
+    { eng: "They had been waiting for the cargo for two weeks when it arrived.", vie: "Họ đã chờ đợi lô hàng liên tục hai tuần khi nó cuối cùng cũng đến." },
+    { eng: "He realized he had forgotten the presentation slides at home.", vie: "Anh ấy nhận ra mình đã bỏ quên các slide thuyết trình ở nhà." },
+    { eng: "By 2020, our company had established three international offices.", vie: "Trước năm 2020, công ty chúng tôi đã thành lập ba văn phòng quốc tế." }
+  ],
+  "unit-5": [
+    { eng: "The results of the evaluation will be announced on Friday afternoon.", vie: "Kết quả của cuộc đánh giá sẽ được công bố vào chiều thứ Sáu." },
+    { eng: "We are going to launch the new advertising campaign next month.", vie: "Chúng tôi dự định sẽ khởi động chiến dịch quảng cáo mới vào tháng tới." },
+    { eng: "A: The printer is out of paper. B: I will refill it right now.", vie: "A: Máy in hết giấy rồi. B: Tôi sẽ nạp thêm giấy ngay bây giờ." },
+    { eng: "Look at the budget sheet! We are going to overspend this quarter.", vie: "Hãy nhìn bảng ngân sách kìa! Chúng ta sắp chi tiêu quá mức quý này." },
+    { eng: "The delegation will visit the new production facility tomorrow.", vie: "Phái đoàn sẽ đến thăm cơ sở sản xuất mới vào ngày mai." },
+    { eng: "Are you going to attend the corporate retreat this weekend?", vie: "Bạn có dự định tham gia kỳ nghỉ dưỡng của công ty cuối tuần này không?" },
+    { eng: "I think the demand for electric vehicles will increase next year.", vie: "Tôi nghĩ nhu cầu về xe điện sẽ tăng lên trong năm tới." },
+    { eng: "They are not going to renew the lease contract for the office.", vie: "Họ sẽ không gia hạn hợp đồng thuê văn phòng." },
+    { eng: "I promise I will send you the updated files as soon as possible.", vie: "Tôi hứa tôi sẽ gửi cho bạn các tệp đã cập nhật sớm nhất có thể." },
+    { eng: "The train leaves at 8:00 AM tomorrow, so don't be late.", vie: "Tàu khởi hành lúc 8 giờ sáng mai, vì vậy đừng đến muộn." },
+    { eng: "We will probably open a new outlet in District 3 soon.", vie: "Chúng tôi có lẽ sẽ sớm mở một cửa hàng mới ở Quận 3." },
+    { eng: "They are going to hire a new consulting agency to help them.", vie: "Họ dự định thuê một công ty tư vấn mới để giúp đỡ họ." },
+    { eng: "Will the shipment be delivered by the end of this week?", vie: "Lô hàng sẽ được giao trước cuối tuần này chứ?" },
+    { eng: "It's cold. I will turn down the air conditioner for you.", vie: "Trời lạnh rồi. Tôi sẽ giảm điều hòa xuống cho bạn." },
+    { eng: "They are going to rebuild the factory to comply with green standards.", vie: "Họ dự định xây dựng lại nhà máy để tuân thủ tiêu chuẩn xanh." },
+    { eng: "Perhaps the management will review the remote work policy.", vie: "Có lẽ ban quản lý sẽ xem xét lại chính sách làm việc từ xa." },
+    { eng: "The international flight lands at 11:30 PM tonight.", vie: "Chuyến bay quốc tế hạ cánh lúc 11:30 đêm nay." },
+    { eng: "I will call the client back immediately to clarify the issue.", vie: "Tôi sẽ gọi lại cho khách hàng ngay lập tức để làm rõ vấn đề." },
+    { eng: "We are going to buy new furniture for the reception area.", vie: "Chúng tôi dự định mua đồ nội thất mới cho khu vực lễ tân." },
+    { eng: "The company won't cut down on benefits for the employees.", vie: "Công ty sẽ không cắt giảm phúc lợi của nhân viên." }
+  ],
+  "unit-6": [
+    { eng: "At this time tomorrow, the team will be flying to London.", vie: "Vào thời điểm này ngày mai, cả đội sẽ đang bay tới London." },
+    { eng: "By the end of this month, we will have completed the audit.", vie: "Trước cuối tháng này, chúng tôi sẽ hoàn thành xong việc kiểm toán." },
+    { eng: "She will be presenting the research findings at 2:00 PM tomorrow.", vie: "Cô ấy sẽ đang trình bày các kết quả nghiên cứu vào lúc 2 giờ chiều mai." },
+    { eng: "By the time you return, they will have finished the renovation.", vie: "Vào lúc bạn quay lại, họ sẽ đã hoàn thành xong việc cải tạo." },
+    { eng: "Don't call him at 9 PM; he will be hosting a webinar then.", vie: "Đừng gọi anh ấy lúc 9 giờ tối; lúc đó anh ấy sẽ đang chủ trì hội thảo." },
+    { eng: "By next Friday, I will have sent all the invitiation letters.", vie: "Trước thứ Sáu tới, tôi sẽ gửi đi tất cả các thư mời." },
+    { eng: "We will be testing the new system throughout the coming week.", vie: "Chúng tôi sẽ thử nghiệm hệ thống mới trong suốt cả tuần tới." },
+    { eng: "By next year, the company will have operated here for a decade.", vie: "Trước năm tới, công ty sẽ hoạt động ở đây được tròn một thập kỷ." },
+    { eng: "They will be celebrating their anniversary at this time next Sunday.", vie: "Họ sẽ đang kỷ niệm ngày thành lập vào giờ này Chủ nhật tới." },
+    { eng: "By the time the manager checks, we will have fixed the bugs.", vie: "Trước khi quản lý kiểm tra, chúng tôi sẽ đã sửa xong các lỗi." },
+    { eng: "Will you be using the conference room all afternoon tomorrow?", vie: "Bạn sẽ sử dụng phòng hội nghị suốt cả chiều ngày mai chứ?" },
+    { eng: "By 2030, scientists will have discovered new energy sources.", vie: "Trước năm 2030, các nhà khoa học sẽ phát hiện ra các nguồn năng lượng mới." },
+    { eng: "I will be working on the tax reports during the weekend.", vie: "Tôi sẽ đang làm việc với các báo cáo thuế trong suốt cuối tuần." },
+    { eng: "By the end of the year, she will have written three manuals.", vie: "Trước cuối năm nay, cô ấy sẽ đã viết xong ba cuốn sách hướng dẫn." },
+    { eng: "The supervisor will be monitoring the progress of the workshop.", vie: "Người giám sát sẽ đang theo dõi tiến độ của hội thảo." },
+    { eng: "By tomorrow morning, they will have loaded the cargo.", vie: "Trước sáng mai, họ sẽ đã xếp xong hàng hóa lên tàu." },
+    { eng: "We will be waiting at the airport gate when your plane lands.", vie: "Chúng tôi sẽ đang đợi ở cổng sân bay khi máy bay của bạn hạ cánh." },
+    { eng: "By next month, the director will have retired from his position.", vie: "Trước tháng sau, giám đốc sẽ đã nghỉ hưu khỏi vị trí của mình." },
+    { eng: "They will be negotiating the budget terms at the next summit.", vie: "Họ sẽ đang đàm phán các điều khoản ngân sách tại hội nghị thượng đỉnh tới." },
+    { eng: "By the time the deadline arrives, we will have revised the draft.", vie: "Trước khi hạn chót đến, chúng tôi sẽ đã sửa đổi xong bản thảo." }
+  ],
+  "unit-7": [
+    { eng: "An experienced consultant was hired to guide the team.", vie: "Một cố vấn có kinh nghiệm đã được thuê để dẫn dắt đội ngũ." },
+    { eng: "We need an immediate response to the client's complaint.", vie: "Chúng tôi cần một phản hồi ngay lập tức cho khiếu nại của khách hàng." },
+    { eng: "The information provided in the pamphlet was highly useful.", vie: "Thông tin được cung cấp trong cuốn sách nhỏ rất hữu ích." },
+    { eng: "The CEO requested a detailed summary of the monthly sales.", vie: "Giám đốc điều hành yêu cầu một bản tóm tắt chi tiết về doanh số hàng tháng." },
+    { eng: "Employees must obtain written permission before leaving.", vie: "Nhân viên phải xin giấy phép bằng văn bản trước khi rời đi." },
+    { eng: "The new equipment was placed in the main conference room.", vie: "Thiết bị mới đã được đặt trong phòng hội nghị chính." },
+    { eng: "She gave us excellent advice on how to improve efficiency.", vie: "Cô ấy đã cho chúng tôi lời khuyên tuyệt vời về cách cải thiện hiệu quả." },
+    { eng: "The company offers free accommodation for all trainees.", vie: "Công ty cung cấp chỗ ở miễn phí cho tất cả học viên thực tập." },
+    { eng: "We have made significant progress in developing the software.", vie: "Chúng tôi đã đạt được tiến bộ đáng kể trong việc phát triển phần mềm." },
+    { eng: "Please submit a copy of the contract to the legal department.", vie: "Vui lòng nộp một bản sao hợp đồng cho bộ phận pháp lý." },
+    { eng: "The manager was pleased with the feedback from our customers.", vie: "Quản lý rất hài lòng với phản hồi từ khách hàng của chúng tôi." },
+    { eng: "We need a new computer system for the accounting office.", vie: "Chúng tôi cần một hệ thống máy tính mới cho văn phòng kế toán." },
+    { eng: "They conducted extensive research on consumer behavior.", vie: "Họ đã tiến hành nghiên cứu sâu rộng về hành vi người tiêu dùng." },
+    { eng: "An assistant will schedule the appointments for you.", vie: "Một trợ lý sẽ sắp xếp các cuộc hẹn cho bạn." },
+    { eng: "The warranty covers the cost of repairing the engine.", vie: "Bảo hành bao gồm chi phí sửa chữa động cơ." },
+    { eng: "The board made an important decision during the meeting.", vie: "Ban giám đốc đã đưa ra một quyết định quan trọng trong cuộc họp." },
+    { eng: "We received negative feedback regarding the delivery time.", vie: "Chúng tôi đã nhận được phản hồi tiêu cực liên quan đến thời gian giao hàng." },
+    { eng: "A professional designer created the layout of the website.", vie: "Một nhà thiết kế chuyên nghiệp đã tạo ra bố cục của trang web." },
+    { eng: "Please make sure to double-check the figures in the report.", vie: "Vui lòng đảm bảo kiểm tra lại các con số trong báo cáo." },
+    { eng: "The supervisor approved the request for annual leave.", vie: "Người giám sát đã phê duyệt yêu cầu nghỉ phép hàng năm." }
+  ],
+  "unit-8": [
+    { eng: "The new laptop model is faster and lighter than the old one.", vie: "Mẫu máy tính xách tay mới nhanh hơn và nhẹ hơn mẫu cũ." },
+    { eng: "This is the most cost-effective solution available in the market.", vie: "Đây là giải pháp tiết kiệm chi phí nhất hiện có trên thị trường." },
+    { eng: "He works more efficiently than his predecessor in this role.", vie: "Anh ấy làm việc hiệu quả hơn người tiền nhiệm trong vai trò này." },
+    { eng: "The second proposal was much better than the first draft.", vie: "Đề xuất thứ hai tốt hơn nhiều so với bản thảo đầu tiên." },
+    { eng: "This version of the app is more stable than the previous update.", vie: "Phiên bản ứng dụng này ổn định hơn bản cập nhật trước đó." },
+    { eng: "She is the most experienced engineer on the development team.", vie: "Cô ấy là kỹ sư có kinh nghiệm nhất trong đội ngũ phát triển." },
+    { eng: "The new warehouse is larger than our old storage facility.", vie: "Kho hàng mới lớn hơn cơ sở lưu trữ cũ của chúng tôi." },
+    { eng: "The service at this hotel is the best in the city.", vie: "Dịch vụ tại khách sạn này là tốt nhất trong thành phố." },
+    { eng: "Our marketing campaign was more successful than we expected.", vie: "Chiến dịch tiếp thị của chúng tôi thành công hơn chúng tôi mong đợi." },
+    { eng: "The costs this quarter are higher than they were last year.", vie: "Chi phí quý này cao hơn so với cùng kỳ năm ngoái." },
+    { eng: "He arrived earlier than the other delegates at the conference.", vie: "Anh ấy đã đến sớm hơn các đại biểu khác tại hội nghị." },
+    { eng: "This is the worst sales record the branch has ever had.", vie: "Đây là kỷ lục doanh số tồi tệ nhất mà chi nhánh từng có." },
+    { eng: "The processing speed of the new server is much faster.", vie: "Tốc độ xử lý của máy chủ mới nhanh hơn nhiều." },
+    { eng: "She communicates more clearly than the other candidates.", vie: "Cô ấy giao tiếp rõ ràng hơn các ứng viên khác." },
+    { eng: "This office is the quietest place in the entire building.", vie: "Văn phòng này là nơi yên tĩnh nhất trong toàn bộ tòa nhà." },
+    { eng: "The sales target for next month is more challenging.", vie: "Mục tiêu doanh số cho tháng tới thách thức hơn." },
+    { eng: "The new system is as reliable as the old database.", vie: "Hệ thống mới đáng tin cậy như cơ sở dữ liệu cũ." },
+    { eng: "He performs better under pressure than his colleagues.", vie: "Anh ấy thể hiện tốt hơn dưới áp lực so với các đồng nghiệp." },
+    { eng: "This is the most important contract we will sign this year.", vie: "Đây là hợp đồng quan trọng nhất mà chúng tôi sẽ ký trong năm nay." },
+    { eng: "The train was less crowded than we had anticipated.", vie: "Tàu ít đông đúc hơn chúng tôi đã dự kiến." }
+  ],
+  "unit-9": [
+    { eng: "The manager recommended reviewing the financial report.", vie: "Quản lý khuyến nghị nên xem xét lại báo cáo tài chính." },
+    { eng: "They decided to postpone the product launch until next spring.", vie: "Họ quyết định hoãn việc ra mắt sản phẩm cho đến mùa xuân tới." },
+    { eng: "He avoided making direct contact with the demanding client.", vie: "Anh ấy tránh tiếp xúc trực tiếp với khách hàng khó tính." },
+    { eng: "All employees are expected to complete the training by Friday.", vie: "Tất cả nhân viên được kỳ vọng hoàn thành khóa đào tạo trước thứ Sáu." },
+    { eng: "She enjoys working with statistical data in the laboratory.", vie: "Cô ấy thích làm việc với dữ liệu thống kê trong phòng thí nghiệm." },
+    { eng: "The board refused to approve the additional funding request.", vie: "Ban giám đốc từ chối phê duyệt yêu cầu cấp vốn bổ sung." },
+    { eng: "He is responsible for managing the department's budget.", vie: "Anh ấy chịu trách nhiệm quản lý ngân sách của bộ phận." },
+    { eng: "They are planning to open a new branch office in London.", vie: "Họ đang lên kế hoạch mở một văn phòng chi nhánh mới ở London." },
+    { eng: "She finished typing the contract draft late last night.", vie: "Cô ấy đã hoàn thành việc gõ bản thảo hợp đồng muộn tối qua." },
+    { eng: "We managed to sign the deal despite the time constraints.", vie: "Chúng tôi đã xoay sở để ký được thỏa thuận bất chấp hạn chế thời gian." },
+    { eng: "He is interested in applying for the project manager position.", vie: "Anh ấy quan tâm đến việc nộp đơn ứng tuyển vị trí quản lý dự án." },
+    { eng: "They agreed to provide free technical support for one year.", vie: "Họ đồng ý cung cấp hỗ trợ kỹ thuật miễn phí trong một năm." },
+    { eng: "She stopped smoking to improve her overall health condition.", vie: "Cô ấy đã bỏ thuốc lá để cải thiện tình trạng sức khỏe chung." },
+    { eng: "He stopped to buy a newspaper on his way to the office.", vie: "Anh ấy đã dừng lại để mua một tờ báo trên đường đến văn phòng." },
+    { eng: "I regret to inform you that your application was rejected.", vie: "Tôi rất tiếc phải thông báo rằng đơn ứng tuyển của bạn đã bị từ chối." },
+    { eng: "She regrets buying the expensive office equipment last month.", vie: "Cô ấy hối hận vì đã mua thiết bị văn phòng đắt tiền tháng trước." },
+    { eng: "The supervisor suggested hiring a temporary assistant.", vie: "Người giám sát gợi ý nên thuê một trợ lý tạm thời." },
+    { eng: "They promise to deliver the shipment before the deadline.", vie: "Họ hứa sẽ giao lô hàng trước thời hạn chót." },
+    { eng: "She is good at analyzing market trends and statistics.", vie: "Cô ấy giỏi phân tích các xu hướng thị trường và thống kê." },
+    { eng: "We look forward to meeting you at the upcoming summit.", vie: "Chúng tôi rất mong được gặp bạn tại hội nghị thượng đỉnh sắp tới." }
+  ],
+  "unit-10": [
+    { eng: "The analyst who prepared the report is currently on leave.", vie: "Nhà phân tích người chuẩn bị báo cáo hiện đang nghỉ phép." },
+    { eng: "The software which was installed last week is already outdated.", vie: "Phần mềm cái được cài đặt tuần trước đã bị lỗi thời rồi." },
+    { eng: "The consultant whose proposal was chosen received a bonus.", vie: "Người cố vấn có đề xuất được chọn đã nhận được một khoản tiền thưởng." },
+    { eng: "This is the branch office where the regional team is based.", vie: "Đây là văn phòng chi nhánh nơi đội ngũ khu vực làm việc." },
+    { eng: "The quarter when profits peaked was the third quarter of 2024.", vie: "Quý khi lợi nhuận đạt đỉnh là quý ba năm 2024." },
+    { eng: "The employee who was promoted deserves our congratulations.", vie: "Người nhân viên được thăng chức xứng đáng nhận được lời chúc mừng." },
+    { eng: "The package that you ordered yesterday has arrived at the lobby.", vie: "Bưu kiện cái mà bạn đặt hôm qua đã đến sảnh lễ tân." },
+    { eng: "The technician whom we contacted yesterday is repairing the server.", vie: "Kỹ thuật viên người chúng tôi liên hệ hôm qua đang sửa máy chủ." },
+    { eng: "The new headquarters, which was built last year, looks modern.", vie: "Trụ sở mới, cái được xây dựng năm ngoái, trông rất hiện đại." },
+    { eng: "Do you know the woman who is presenting the sales slides?", vie: "Bạn có biết người phụ nữ người đang trình bày các slide doanh số không?" },
+    { eng: "The office space which we leased is located in the city center.", vie: "Không gian văn phòng cái chúng tôi thuê nằm ở trung tâm thành phố." },
+    { eng: "The client whose contract was renewed sent a thank-you note.", vie: "Khách hàng có hợp đồng được gia hạn đã gửi một thư cảm ơn." },
+    { eng: "The factory where the goods are produced complies with green laws.", vie: "Nhà máy nơi hàng hóa được sản xuất tuân thủ luật môi trường." },
+    { eng: "The day when the audit begins has been scheduled for Monday.", vie: "Ngày khi việc kiểm toán bắt đầu đã được lên lịch vào thứ Hai." },
+    { eng: "The director, who visited us yesterday, approved the project.", vie: "Giám đốc, người đã đến thăm chúng tôi hôm qua, đã duyệt dự án." },
+    { eng: "The manual that explains the software is available online.", vie: "Cuốn hướng dẫn cái giải thích phần mềm đã có sẵn trực tuyến." },
+    { eng: "The candidate whom the HR team interviewed has accepted the offer.", vie: "Ứng viên người đội ngũ nhân sự phỏng vấn đã đồng ý nhận việc." },
+    { eng: "The database which handles customer details needs an upgrade.", vie: "Cơ sở dữ liệu cái xử lý chi tiết khách hàng cần được nâng cấp." },
+    { eng: "He is the manager whose decision changed the course of the firm.", vie: "Ông ấy là người quản lý có quyết định thay đổi hướng đi công ty." },
+    { eng: "We visited the laboratory where the vaccine was first tested.", vie: "Chúng tôi đã đến thăm phòng thí nghiệm nơi vắc-xin được thử nghiệm đầu tiên." }
+  ],
+  "unit-11": [
+    { eng: "The final budget report was approved by the finance director.", vie: "Báo cáo ngân sách cuối cùng đã được phê duyệt bởi giám đốc tài chính." },
+    { eng: "New access badges are distributed at the reception desk.", vie: "Thẻ ra vào mới được phân phát tại bàn lễ tân." },
+    { eng: "The marketing proposal is being reviewed by the CEO.", vie: "Đề xuất tiếp thị đang được xem xét bởi Giám đốc điều hành." },
+    { eng: "The server room has been locked for security purposes.", vie: "Phòng máy chủ đã được khóa vì mục đích an ninh." },
+    { eng: "All files were successfully backed up to the cloud network.", vie: "Tất cả các tệp đã được sao lưu thành công lên mạng đám mây." },
+    { eng: "The software will be updated by the technical team tonight.", vie: "Phần mềm sẽ được cập nhật bởi đội ngũ kỹ thuật tối nay." },
+    { eng: "The products were manufactured in our domestic facility.", vie: "Các sản phẩm đã được sản xuất tại nhà máy trong nước của chúng tôi." },
+    { eng: "We were informed about the schedule changes by email.", vie: "Chúng tôi đã được thông báo về các thay đổi lịch trình qua email." },
+    { eng: "The documents are being prepared by the administrative clerk.", vie: "Các tài liệu đang được chuẩn bị bởi nhân viên hành chính." },
+    { eng: "A new branch has been established in Seoul this year.", vie: "Một chi nhánh mới đã được thành lập tại Seoul trong năm nay." },
+    { eng: "The conference was attended by more than five hundred guests.", vie: "Hội nghị đã được tham dự bởi hơn năm trăm vị khách." },
+    { eng: "The invoice must be submitted before the end of the month.", vie: "Hóa đơn phải được nộp trước khi kết thúc tháng." },
+    { eng: "The package was delivered to the wrong address yesterday.", vie: "Bưu kiện đã được giao đến sai địa chỉ ngày hôm qua." },
+    { eng: "The annual report is published on the corporate website.", vie: "Báo cáo thường niên được công bố trên trang web của công ty." },
+    { eng: "She was chosen to lead the research project in Berlin.", vie: "Cô ấy đã được chọn để dẫn dắt dự án nghiên cứu ở Berlin." },
+    { eng: "The main server was damaged during the lightning storm.", vie: "Máy chủ chính đã bị hỏng trong trận bão sét." },
+    { eng: "Training materials are provided to all new hires on day one.", vie: "Tài liệu đào tạo được cung cấp cho tất cả nhân viên mới vào ngày đầu." },
+    { eng: "The contract is signed by both representatives of the firms.", vie: "Hợp đồng được ký bởi cả hai đại diện của các công ty." },
+    { eng: "The event is being organized by a professional agency.", vie: "Sự kiện đang được tổ chức bởi một đại lý chuyên nghiệp." },
+    { eng: "The files have been archived in the storage room upstairs.", vie: "Các tệp đã được lưu trữ trong phòng lưu trữ trên tầng." }
+  ],
+  "unit-12": [
+    { eng: "Everyone in the marketing department attended the briefing.", vie: "Mọi người ở bộ phận tiếp thị đã tham dự buổi họp ngắn." },
+    { eng: "Someone needs to respond to this customer query immediately.", vie: "Ai đó cần phải trả lời câu hỏi của khách hàng này ngay lập tức." },
+    { eng: "Has anyone seen the contract folders on the desk?", vie: "Có ai nhìn thấy các thư mục hợp đồng trên bàn không?" },
+    { eng: "No one was available to take the incoming call at 5 PM.", vie: "Không một ai có mặt để nhận cuộc gọi đến lúc 5 giờ chiều." },
+    { eng: "Everything in the inventory list was double-checked.", vie: "Mọi thứ trong danh sách hàng tồn kho đã được kiểm tra lại." },
+    { eng: "Something is wrong with the network connection today.", vie: "Có điều gì đó không ổn với kết nối mạng ngày hôm nay." },
+    { eng: "Is there anything we can do to help speed up the process?", vie: "Có bất cứ điều gì chúng ta có thể làm để giúp đẩy nhanh quá trình không?" },
+    { eng: "Nothing was found during the internal financial audit.", vie: "Không có gì được tìm thấy trong cuộc kiểm toán tài chính nội bộ." },
+    { eng: "We looked everywhere for the misplaced files but found nothing.", vie: "Chúng tôi đã tìm kiếm khắp nơi các tệp thất lạc nhưng không thấy gì." },
+    { eng: "I left the report somewhere in the main conference room.", vie: "Tôi đã để lại báo cáo ở đâu đó trong phòng hội nghị chính." },
+    { eng: "You can find this software utility anywhere on the web.", vie: "Bạn có thể tìm thấy tiện ích phần mềm này ở bất cứ đâu trên mạng." },
+    { eng: "The office was quiet because nobody was working late.", vie: "Văn phòng rất yên tĩnh vì không có ai làm việc muộn." },
+    { eng: "Everyone is required to wear safety gear at the factory.", vie: "Mọi người đều bắt buộc phải mặc đồ bảo hộ tại nhà máy." },
+    { eng: "Is someone in charge of coordinating the food catering?", vie: "Có ai đó chịu trách nhiệm điều phối việc cung cấp thức ăn không?" },
+    { eng: "I didn't notice anyone entering the server room.", vie: "Tôi đã không chú ý thấy bất cứ ai đi vào phòng máy chủ." },
+    { eng: "Nothing is more important than ensuring client safety.", vie: "Không có gì quan trọng hơn việc đảm bảo an toàn cho khách hàng." },
+    { eng: "We need to go somewhere quiet to discuss the budget.", vie: "Chúng ta cần đi đâu đó yên tĩnh để thảo luận về ngân sách." },
+    { eng: "She didn't tell anyone about her decision to resign.", vie: "Cô ấy đã không nói với bất cứ ai về quyết định từ chức của mình." },
+    { eng: "Everything has been prepared according to the director's rules.", vie: "Mọi thứ đã được chuẩn bị theo các quy tắc của giám đốc." },
+    { eng: "Somebody left their access badge on the dining table.", vie: "Ai đó đã bỏ quên thẻ ra vào của họ trên bàn ăn." }
+  ],
+  "unit-13": [
+    { eng: "The meeting was cancelled because the venue had not been confirmed.", vie: "Cuộc họp đã bị hủy vì địa điểm họp chưa được xác nhận." },
+    { eng: "Although profits were up, the board decided to cut budgets.", vie: "Mặc dù lợi nhuận tăng, ban giám đốc quyết định cắt giảm ngân sách." },
+    { eng: "We will proceed with the plan provided that we get funding.", vie: "Chúng tôi sẽ tiến hành kế hoạch với điều kiện là nhận được vốn." },
+    { eng: "He resigned, for he had found a better job opportunity.", vie: "Anh ấy đã từ chức, vì anh ấy đã tìm thấy một cơ hội việc làm tốt hơn." },
+    { eng: "The server crashed, so the morning work was lost.", vie: "Máy chủ bị sập, vì vậy công việc buổi sáng đã bị mất." },
+    { eng: "Either the director or the supervisor will sign the form.", vie: "Hoặc giám đốc hoặc người giám sát sẽ ký vào mẫu đơn." },
+    { eng: "She is not only experienced but also highly knowledgeable.", vie: "Cô ấy không chỉ có kinh nghiệm mà còn rất am hiểu." },
+    { eng: "Neither the manager nor his assistant attended the briefing.", vie: "Cả người quản lý và trợ lý của ông đều không tham dự buổi họp." },
+    { eng: "He didn't call the client, nor did he send an email.", vie: "Anh ấy đã không gọi cho khách hàng, cũng không gửi email." },
+    { eng: "The results were unexpected, yet the team remained optimistic.", vie: "Kết quả rất bất ngờ, thế nhưng cả đội vẫn lạc quan." },
+    { eng: "You can submit the document online or send it by mail.", vie: "Bạn có thể nộp tài liệu trực tuyến hoặc gửi qua đường bưu điện." },
+    { eng: "Because of the rain, the outdoor event was postponed.", vie: "Bởi vì trời mưa, sự kiện ngoài trời đã bị hoãn lại." },
+    { eng: "Despite the high costs, the project was completed on time.", vie: "Bất chấp chi phí cao, dự án vẫn được hoàn thành đúng hạn." },
+    { eng: "We will wait here until the courier delivers the package.", vie: "Chúng tôi sẽ đợi ở đây cho đến khi nhân viên giao hàng chuyển bưu kiện." },
+    { eng: "Unless we cut down expenses, we will go over budget.", vie: "Trừ khi chúng ta cắt giảm chi phí, nếu không chúng ta sẽ vượt ngân sách." },
+    { eng: "He worked overtime so that the software could launch on time.", vie: "Anh ấy đã làm việc tăng ca để phần mềm có thể ra mắt đúng hạn." },
+    { eng: "As long as you follow the rules, you won't have issues.", vie: "Miễn là bạn tuân thủ các quy tắc, bạn sẽ không gặp rắc rối." },
+    { eng: "In spite of the traffic, she arrived at the lobby early.", vie: "Mặc dù kẹt xe, cô ấy đã đến sảnh lễ tân sớm." },
+    { eng: "The company expanded its marketing team since sales were low.", vie: "Công ty đã mở rộng đội ngũ tiếp thị vì doanh số bán hàng thấp." },
+    { eng: "Both the CEO and the CFO approved the audit findings.", vie: "Cả Giám đốc điều hành và Giám đốc tài chính đều duyệt kết quả kiểm toán." }
+  ],
+  "unit-14": [
+    { eng: "If you heat water to 100 degrees, it boils.", vie: "Nếu bạn đun nước đến 100 độ, nó sẽ sôi. (Câu điều kiện loại 0)" },
+    { eng: "If the supplier confirms today, we will place the order.", vie: "Nếu nhà cung cấp xác nhận hôm nay, chúng tôi sẽ đặt hàng. (Loại 1)" },
+    { eng: "If we had more budget, we would hire an assistant developer.", vie: "Nếu chúng ta có thêm ngân sách, chúng ta sẽ thuê một trợ lý lập trình. (Loại 2)" },
+    { eng: "If she had reviewed the contract, she would have noticed the error.", vie: "Nếu cô ấy đã xem xét hợp đồng, cô ấy đã nhận ra lỗi. (Loại 3)" },
+    { eng: "If the flight is delayed, the schedule will be changed.", vie: "Nếu chuyến bay bị trễ, lịch trình sẽ bị thay đổi." },
+    { eng: "If I were the director, I would invest in new servers.", vie: "Nếu tôi là giám đốc, tôi sẽ đầu tư vào các máy chủ mới." },
+    { eng: "If they had run tests, they would have found the software bug.", vie: "Nếu họ đã chạy thử nghiệm, họ đã tìm thấy lỗi phần mềm." },
+    { eng: "If you have any questions, please contact the front desk.", vie: "Nếu bạn có bất kỳ câu hỏi nào, vui lòng liên hệ bàn lễ tân." },
+    { eng: "If she gets the promotion, she will relocate to Seoul.", vie: "Nếu cô ấy được thăng chức, cô ấy sẽ chuyển đến Seoul." },
+    { eng: "If he worked harder, he would achieve his sales target.", vie: "Nếu anh ấy làm việc chăm chỉ hơn, anh ấy sẽ đạt được mục tiêu doanh số." },
+    { eng: "If the client had rejected the proposal, we would have lost the deal.", vie: "Nếu khách hàng từ chối đề xuất, chúng ta đã mất hợp đồng." },
+    { eng: "If you mix blue and yellow, you get green.", vie: "Nếu bạn trộn màu xanh dương và màu vàng, bạn sẽ được màu xanh lá cây." },
+    { eng: "If we don't reduce costs, the business will suffer loss.", vie: "Nếu chúng ta không giảm chi phí, doanh nghiệp sẽ chịu tổn thất." },
+    { eng: "If I were you, I would back up all files immediately.", vie: "Nếu tôi là bạn, tôi sẽ sao lưu tất cả các tệp ngay lập tức." },
+    { eng: "If they had signed earlier, the shipment would have arrived yesterday.", vie: "Nếu họ đã ký sớm hơn, lô hàng đã có thể đến vào ngày hôm qua." },
+    { eng: "If the alarm goes off, security guards patrol the area.", vie: "Nếu chuông báo động reo, nhân viên bảo vệ sẽ tuần tra khu vực." },
+    { eng: "If we receive the visa on time, we will travel next week.", vie: "Nếu chúng tôi nhận được thị thực đúng hạn, chúng tôi sẽ đi vào tuần tới." },
+    { eng: "If the factory had green standards, buyers would purchase more.", vie: "Nếu nhà máy có tiêu chuẩn xanh, người mua sẽ mua nhiều hơn." },
+    { eng: "If they had updated the site, users would not have complained.", vie: "Nếu họ đã cập nhật trang web, người dùng đã không phàn nàn." },
+    { eng: "If she submits the draft today, I will review it tonight.", vie: "Nếu cô ấy nộp bản thảo hôm nay, tôi sẽ xem xét nó tối nay." }
+  ]
+};
+---
+
+<Layout title="Tổng ôn công thức & 20 ví dụ" description="Tóm tắt công thức ngữ pháp kèm 20 câu ví dụ song ngữ Anh-Việt cho 14 chủ điểm TOEIC.">
+  <div class="mb-8">
+    <nav class="flex text-sm text-slate-500 mb-4" aria-label="Breadcrumb">
+      <a href={import.meta.env.BASE_URL} class="hover:text-blue-600">Trang chủ</a>
+      <span class="mx-2">/</span>
+      <span class="text-slate-900 dark:text-slate-300 font-medium">Tóm tắt công thức</span>
+    </nav>
+    <h1 class="text-3xl font-outfit font-bold tracking-tight">Tổng Ôn & Tóm Tắt Ngữ Pháp</h1>
+    <p class="text-slate-650 dark:text-slate-400 mt-2">Phân rõ tiếng Việt, cấu trúc công thức và 20 câu ví dụ thực tế cho mỗi bài học.</p>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+    <!-- Sidebar Navigation -->
+    <div class="lg:col-span-1 space-y-2 lg:sticky lg:top-24 h-fit max-h-[80vh] overflow-y-auto pr-2 custom-scrollbar">
+      <h3 class="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider px-3 mb-3">Danh sách bài học</h3>
+      {grammarLessons.map((lesson) => (
+        <button 
+          class="w-full text-left px-3 py-2 rounded-xl text-sm font-medium text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800 transition-all truncate unit-nav-btn" 
+          data-target={lesson.id.replace(/\.mdx?$/, '')}
+        >
+          {lesson.data.title}
+        </button>
+      ))}
+    </div>
+
+    <!-- Central Detailed Review Card -->
+    <div class="lg:col-span-3 space-y-8">
+      {grammarLessons.map((lesson) => {
+        const idClean = lesson.id.replace(/\.mdx?$/, '');
+        const formulas = lesson.data.formulas || [];
+        const sentences = sentenceData[idClean] || [];
+
+        return (
+          <div id={`content-${idClean}`} class="unit-content-section p-6 sm:p-8 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-6 hidden">
+            <!-- Header -->
+            <div>
+              <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 dark:bg-blue-950/30 dark:text-blue-300 mb-3 border border-blue-200 dark:border-blue-800/30">
+                Module {lesson.data.module}
+              </div>
+              <h2 class="text-2xl sm:text-3xl font-outfit font-bold">{lesson.data.title}</h2>
+              <p class="text-slate-650 dark:text-slate-400 text-sm mt-2">{lesson.data.objective}</p>
+            </div>
+
+            <hr class="border-slate-150 dark:border-slate-800" />
+
+            <!-- Formulas -->
+            {formulas.length > 0 && (
+              <div class="space-y-3">
+                <h3 class="text-lg font-outfit font-bold flex items-center gap-2">
+                  <span>📐</span> Công thức cốt lõi
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {formulas.map(f => (
+                    <div class="p-4 rounded-xl bg-blue-50/50 dark:bg-blue-950/10 border border-blue-100 dark:border-blue-900/20 space-y-1">
+                      <span class="text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wider">{f.label}</span>
+                      <p class="font-mono font-bold text-slate-800 dark:text-slate-200 text-sm sm:text-base">{f.structure}</p>
+                      <p class="text-xs text-slate-500 dark:text-slate-400 italic">Ex: {f.example}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <!-- Usage Summary in Vietnamese -->
+            <div class="space-y-3">
+              <h3 class="text-lg font-outfit font-bold flex items-center gap-2">
+                <span>💡</span> Cách dùng & Dấu hiệu nhận biết
+              </h3>
+              <div class="p-5 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-150 dark:border-slate-850 space-y-3 text-sm text-slate-700 dark:text-slate-300">
+                <p>{lesson.data.summary}</p>
+                <div class="space-y-2">
+                  <p class="font-bold text-xs uppercase tracking-wider text-slate-500">Mẹo ghi nhớ từ chuyên gia:</p>
+                  <ul class="list-disc pl-5 space-y-1.5 text-xs sm:text-sm">
+                    {lesson.data.memoryTips.map(tip => (
+                      <li>{tip}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- 20 Examples Section -->
+            <div class="space-y-4">
+              <h3 class="text-lg font-outfit font-bold flex items-center gap-2">
+                <span>📚</span> 20 câu ví dụ thực tế (Anh - Việt)
+              </h3>
+              <div class="space-y-3 max-h-[500px] overflow-y-auto pr-2 border border-slate-100 dark:border-slate-850 rounded-xl p-4 bg-slate-50/30 dark:bg-slate-950/20 custom-scrollbar">
+                {sentences.map((s, idx) => (
+                  <div class="p-3 rounded-lg bg-white dark:bg-slate-900 border border-slate-150 dark:border-slate-800 space-y-1 text-xs sm:text-sm shadow-sm">
+                    <div class="flex items-start gap-2">
+                      <span class="font-bold text-blue-600 dark:text-blue-400 min-w-[20px]">{idx + 1}.</span>
+                      <div class="space-y-0.5">
+                        <p class="font-semibold text-slate-800 dark:text-slate-200">EN: {s.eng}</p>
+                        <p class="text-slate-655 dark:text-slate-400">VI: {s.vie}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            
+            <!-- Details button -->
+            <div class="flex justify-end pt-2">
+              <a href={`${import.meta.env.BASE_URL}grammar/${idClean}`} class="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-750 text-white text-xs font-semibold transition-all">
+                Đến trang chi tiết bài học & Trắc nghiệm
+              </a>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+
+  <!-- Interactive page script -->
+  <script is:inline>
+    const navButtons = document.querySelectorAll('.unit-nav-btn');
+    const contentSections = document.querySelectorAll('.unit-content-section');
+
+    function selectUnit(unitId) {
+      // Hide all sections
+      contentSections.forEach(section => {
+        section.classList.add('hidden');
+      });
+
+      // Show targeted section
+      const targetSection = document.getElementById(`content-${unitId}`);
+      if (targetSection) {
+        targetSection.classList.remove('hidden');
+      }
+
+      // Highlight active nav button
+      navButtons.forEach(btn => {
+        if (btn.getAttribute('data-target') === unitId) {
+          btn.classList.remove('text-slate-700', 'dark:text-slate-300', 'hover:bg-slate-100', 'dark:hover:bg-slate-800');
+          btn.classList.add('bg-blue-50', 'text-blue-700', 'dark:bg-blue-950/40', 'dark:text-blue-300', 'font-bold');
+        } else {
+          btn.classList.add('text-slate-700', 'dark:text-slate-300', 'hover:bg-slate-100', 'dark:hover:bg-slate-800');
+          btn.classList.remove('bg-blue-50', 'text-blue-700', 'dark:bg-blue-950/40', 'dark:text-blue-300', 'font-bold');
+        }
+      });
+
+      // Save preference to localStorage
+      localStorage.setItem('selected-review-unit', unitId);
+    }
+
+    navButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.getAttribute('data-target');
+        selectUnit(target);
+      });
+    });
+
+    // Restore or default to unit-1
+    const storedUnit = localStorage.getItem('selected-review-unit') || 'unit-1';
+    selectUnit(storedUnit);
+  </script>
+
+  <style>
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 5px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: rgba(100, 116, 139, 0.2);
+      border-radius: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: rgba(100, 116, 139, 0.4);
+    }
+  </style>
+</Layout>

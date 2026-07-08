@@ -17,9 +17,9 @@ const { data } = lesson;
 
 <Layout title={data.title} description={data.objective}>
   <nav class="flex text-sm text-slate-500 mb-6" aria-label="Breadcrumb">
-    <a href="/" class="hover:text-blue-600">Trang chủ</a>
+    <a href={import.meta.env.BASE_URL} class="hover:text-blue-600">Trang chủ</a>
     <span class="mx-2">/</span>
-    <a href="/grammar" class="hover:text-blue-600">Ngữ pháp</a>
+    <a href={`${import.meta.env.BASE_URL}grammar`} class="hover:text-blue-600">Ngữ pháp</a>
     <span class="mx-2">/</span>
     <span class="text-slate-900 dark:text-slate-300 font-medium truncate max-w-[200px] sm:max-w-none">{data.title}</span>
   </nav>

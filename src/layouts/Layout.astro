@@ -12,7 +12,7 @@ const { title, description = "Học TOEIC tự học từ mất gốc đến 900
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}favicon.svg`} />
     <meta name="generator" content={Astro.generator} />
     
     <!-- Primary Meta Tags -->
@@ -49,15 +49,15 @@ const { title, description = "Học TOEIC tự học từ mất gốc đến 900
     <!-- Navigation Bar -->
     <header class="sticky top-0 z-50 backdrop-blur-md bg-white/75 dark:bg-slate-900/75 border-b border-slate-200 dark:border-slate-800 transition-colors">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        <a href="/" class="flex items-center gap-2">
+        <a href={import.meta.env.BASE_URL} class="flex items-center gap-2">
           <span class="font-outfit font-bold text-2xl bg-gradient-to-r from-blue-600 to-indigo-500 bg-clip-text text-transparent">TOEIC Master</span>
         </a>
         
         <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
-          <a href="/dashboard" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Dashboard</a>
-          <a href="/grammar" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Ngữ pháp</a>
-          <a href="/listening" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Luyện nghe</a>
-          <a href="/flashcards" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Flashcards</a>
+          <a href={`${import.meta.env.BASE_URL}dashboard`} class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Dashboard</a>
+          <a href={`${import.meta.env.BASE_URL}grammar`} class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Ngữ pháp</a>
+          <a href={`${import.meta.env.BASE_URL}listening`} class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Luyện nghe</a>
+          <a href={`${import.meta.env.BASE_URL}grammar-review`} class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Tóm tắt nhanh</a>
         </nav>
 
         <div class="flex items-center gap-4">

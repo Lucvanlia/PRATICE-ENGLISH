@@ -55,3 +55,15 @@
 - [x] Create `src/content/grammar/unit-6.mdx` (Future Continuous vs Future Perfect)
 - [x] Verify project builds cleanly
 
+## Content Batch 2: Grammar Units 7-14
+- [x] Create `src/content/grammar/unit-7.mdx` (Parts of Speech)
+- [x] Create `src/content/grammar/unit-8.mdx` (Comparisons)
+- [x] Create `src/content/grammar/unit-9.mdx` (Gerunds & Infinitives)
+- [x] Create `src/content/grammar/unit-10.mdx` (Relative Clauses)
+- [x] Create `src/content/grammar/unit-11.mdx` (Passive Voice)
+- [x] Create `src/content/grammar/unit-12.mdx` (Advanced Pronouns)
+- [x] Create `src/content/grammar/unit-13.mdx` (Conjunctions vs Prepositions)
+- [x] Create `src/content/grammar/unit-14.mdx` (Conditionals)
+- [x] Verify project builds cleanly
+
+

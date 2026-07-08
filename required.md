@@ -131,7 +131,7 @@ Bắt đầu từ URL này.
 ví dụ 
  Lộ trình học TOEIC Listening
 Unit 1: Hiện tại đơn & hiện tại tiếp diễn- url https://www.anhngumshoa.com/tin-tuc/unit-1-thi-hien-tai-don-va-thi-hien-tai-tiep-dien-34828.html
-Unit 2: Thì hiện tại hoàn thành và hiện tại hoàn thành tiếp diễn:https://www.anhngumshoa.com/tin-tuc/unit-2-thi-hien-tai-hoan-thanh-va-thi-hien-tai-hoan-thanh-tiep-dien-34829.html
+Unit 2: Thì hiện tại hoàn thành và hiện tại hoàn thành tiếp diễn:https://www.anhngumshoa.com/tin-tuc/unit-2-thi-hien-tai-hoan-thanh-va-thi-hien-tai-hoan-thanh-tiep-dien-0.34829.html
 Unit 3: Thì quá khứ đơn và quá khứ tiếp diễn https://www.anhngumshoa.com/tin-tuc/unit-3-thi-qua-khu-don-va-thi-qua-khu-tiep-dien-the-past-simple-and-the-past-continuous-34845.html
 Unit 4: Thì quá khứ hoàn thành và quá khứ hoàn thành tiếp diễn : https://www.anhngumshoa.com/tin-tuc/unit-4-thi-qua-khu-hoan-thanh-thi-qua-khu-hoan-thanh-tiep-dien-the-past-perfect-the-past-perfect-continuous-34846.html
 Unit 5: Thì tương lai đơn và tương lai gần:https://www.anhngumshoa.com/tin-tuc/unit-5-thi-tuong-lai-don-tuong-lai-gan-the-future-simple-the-near-future-34847.html

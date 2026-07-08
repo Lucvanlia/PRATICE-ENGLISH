@@ -12,8 +12,8 @@
 
 ## Content Expansion
 - [x] Batch 1: Grammar Units 2-6 - COMPLETED
-- [/] Batch 2: Grammar Units 7-14 - IN PROGRESS
-- [ ] Batch 3: Listening Units 2-15 - PENDING
+- [x] Batch 2: Grammar Units 7-14 - COMPLETED
+- [/] Batch 3: Listening Units 2-15 - IN PROGRESS
 
 ## Goals
 - Build a self-study TOEIC static site using Astro & TailwindCSS.

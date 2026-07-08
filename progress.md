@@ -38,6 +38,16 @@
 - [x] Created `src/content/grammar/unit-5.mdx` (Future Simple vs Near Future).
 - [x] Created `src/content/grammar/unit-6.mdx` (Future Continuous vs Future Perfect).
 - [x] Successfully verified and compiled 13 static pages.
+- [x] Created `src/content/grammar/unit-7.mdx` (Parts of Speech).
+- [x] Created `src/content/grammar/unit-8.mdx` (Comparisons).
+- [x] Created `src/content/grammar/unit-9.mdx` (Gerunds & Infinitives).
+- [x] Created `src/content/grammar/unit-10.mdx` (Relative Clauses).
+- [x] Created `src/content/grammar/unit-11.mdx` (Passive Voice).
+- [x] Created `src/content/grammar/unit-12.mdx` (Advanced Pronouns).
+- [x] Created `src/content/grammar/unit-13.mdx` (Conjunctions vs Prepositions).
+- [x] Created `src/content/grammar/unit-14.mdx` (Conditionals).
+- [x] Successfully verified and compiled 21 static pages.
+
 
 
 

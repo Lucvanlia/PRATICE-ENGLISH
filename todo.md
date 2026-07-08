@@ -46,3 +46,12 @@
 - [x] Create GitHub Actions workflow file
 - [x] Verify git commit status
 - [x] Complete final walkthrough
+
+## Content Batch 1: Grammar Units 2-6
+- [x] Create `src/content/grammar/unit-2.mdx` (Present Perfect vs Present Perfect Continuous)
+- [x] Create `src/content/grammar/unit-3.mdx` (Past Simple vs Past Continuous)
+- [x] Create `src/content/grammar/unit-4.mdx` (Past Perfect vs Past Perfect Continuous)
+- [x] Create `src/content/grammar/unit-5.mdx` (Future Simple vs Near Future)
+- [x] Create `src/content/grammar/unit-6.mdx` (Future Continuous vs Future Perfect)
+- [x] Verify project builds cleanly
+

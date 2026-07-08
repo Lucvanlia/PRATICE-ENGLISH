@@ -10,6 +10,11 @@
 - [x] Phase 7: Testing - COMPLETED
 - [x] Phase 8: Deployment - COMPLETED
 
+## Content Expansion
+- [x] Batch 1: Grammar Units 2-6 - COMPLETED
+- [/] Batch 2: Grammar Units 7-14 - IN PROGRESS
+- [ ] Batch 3: Listening Units 2-15 - PENDING
+
 ## Goals
 - Build a self-study TOEIC static site using Astro & TailwindCSS.
 - Apply high token optimization across files and content schemas.
